@@ -14,5 +14,7 @@ namespace MeetingManager.Models
         public string EmailAddress { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public List<Offer> Offers { get; set; }
     }
 }

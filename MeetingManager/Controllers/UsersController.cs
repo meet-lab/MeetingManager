@@ -86,6 +86,20 @@ namespace MeetingManager
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
+        [HttpPost("/LoginUser")]
+        public async Task<ActionResult<User>> LoginUser([FromBody] string emailOrUserName, string password)
+        {
+            var user = await _context.User.Where(u => (u.EmailAddress == emailOrUserName || u.UserName == emailOrUserName) 
+            && u.Password == password).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
