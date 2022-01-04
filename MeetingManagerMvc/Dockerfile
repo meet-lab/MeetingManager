@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["MeetingManager/MeetingManager.csproj", "MeetingManager/"]
-RUN dotnet restore "MeetingManager/MeetingManager.csproj"
+COPY ["MeetingManagerMvc/MeetingManagerMvc.csproj", "MeetingManagerMvc/"]
+RUN dotnet restore "MeetingManagerMvc/MeetingManagerMvc.csproj"
 COPY . .
-WORKDIR "/src/MeetingManager"
-RUN dotnet build "MeetingManager.csproj" -c Release -o /app/build
+WORKDIR "/src/MeetingManagerMvc"
+RUN dotnet build "MeetingManagerMvc.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "MeetingManager.csproj" -c Release -o /app/publish
+RUN dotnet publish "MeetingManagerMvc.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "MeetingManager.dll"]
+ENTRYPOINT ["dotnet", "MeetingManagerMvc.dll"]
