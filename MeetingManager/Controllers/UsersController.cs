@@ -86,12 +86,12 @@ namespace MeetingManager
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        [HttpPost("/LoginUser")]
+        // POST: api/Users/LoginUser
+        [HttpPost("LoginUser")]
         public async Task<ActionResult<User>> LoginUser([FromBody] LoginModel loginData)
         {
-            Console.WriteLine(loginData);
             var user = await _context.User.Where(u => (u.EmailAddress == loginData.EmailAddressOrUserName || u.UserName == loginData.EmailAddressOrUserName )
-            && u.Password == loginData.Password).FirstOrDefaultAsync();
+            && u.Password == loginData.Password).FirstAsync();
 
             if (user == null)
             {

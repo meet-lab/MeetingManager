@@ -1,8 +1,11 @@
 ﻿using MeetingManager.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration; //IConfiguration
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 
@@ -13,13 +16,14 @@ namespace MeetingManagerMvc.Controllers
         private readonly HttpClient client;
         private readonly string WebApiPath;
         private readonly IConfiguration _configuration;
+        private readonly List<User> users;
 
         public UserClientController(IConfiguration configuration)
         {
             _configuration = configuration;
-            WebApiPath = _configuration["MeetingManager:Url"];   //read from appsettings.json
+            WebApiPath = _configuration["MeetingManager:Url"];
             client = new HttpClient();
-            client.DefaultRequestHeaders.Add("ApiKey", _configuration["MeetingManager:ApiKey"]);   //use on any http calls      
+            client.DefaultRequestHeaders.Add("ApiKey", _configuration["MeetingManager:ApiKey"]);
         }
 
 
@@ -30,7 +34,7 @@ namespace MeetingManagerMvc.Controllers
             HttpResponseMessage response = await client.GetAsync(WebApiPath);
             if (response.IsSuccessStatusCode)
             {
-                users = await response.Content.ReadAsAsync<List<User>>();  //requires System.Net.Http.Formatting.Extension
+                users = await response.Content.ReadAsAsync<List<User>>();
             }
             return View(users);
         }
@@ -56,7 +60,59 @@ namespace MeetingManagerMvc.Controllers
             return View();
         }
 
+        public IActionResult LoginUser(string ReturnUrl = "/")
+        {
+            LoginModel loginModel = new()
+            {
+                ReturnUrl = ReturnUrl
+            };
 
+            return View(loginModel);
+        }
+
+        // POST: UserClientController/LoginUser
+        [HttpPost]
+        public async Task<IActionResult> LoginUser([Bind("EmailAddressOrUserName,Password,RememberLogin,ReturnUrl")] LoginModel loginModel)
+        {
+            if (ModelState.IsValid)
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync(WebApiPath, loginModel);
+                response.EnsureSuccessStatusCode();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //A claim is a statement about a subject by an issuer and
+                    //represent attributes of the subject that are useful in the context of authentication and authorization operations.
+                    var claims = new List<Claim>() {
+                    new Claim(ClaimTypes.Name, loginModel.EmailAddressOrUserName)
+                };
+                    //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    //Initialize a new instance of the ClaimsPrincipal with ClaimsIdentity
+                    var principal = new ClaimsPrincipal(identity);
+                    //Signin user and create cookie
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        principal,
+                        new AuthenticationProperties() { IsPersistent = loginModel.RememberLogin }
+                        );
+
+                    return LocalRedirect(loginModel.ReturnUrl);
+                }
+                else
+                {
+                    ViewBag.Message = "Provided credential is not valid.";
+                    return View(loginModel);
+                }
+            }
+            return View(loginModel);
+        }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return LocalRedirect("/");
+        }
 
         // POST: UserClientController/Create
         [HttpPost]
@@ -72,8 +128,6 @@ namespace MeetingManagerMvc.Controllers
             return View(user);
         }
 
-
-
         // GET: UserClientController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
@@ -85,7 +139,6 @@ namespace MeetingManagerMvc.Controllers
             }
             return NotFound();
         }
-
 
         // POST: UserClientController/Edit/5
         [HttpPost]
@@ -100,9 +153,6 @@ namespace MeetingManagerMvc.Controllers
             }
             return View(user);
         }
-
-
-
 
         // GET: UserClientController/Delete/5
         public async Task<ActionResult> Delete(int id)
