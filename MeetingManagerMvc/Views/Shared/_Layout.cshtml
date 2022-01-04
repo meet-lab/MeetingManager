@@ -32,12 +32,12 @@
                         <li>
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <a asp-controller="Account" asp-action="Details">Details</a>
-                                <a asp-controller="Account" asp-action="Logout">Logout</a>
+                                <a asp-controller="UserClient" asp-action="Details">Details</a>
+                                <a asp-controller="UserClient" asp-action="Logout">Logout</a>
                             }
                             else
                             {
-                                <a asp-controller="Account" asp-action="Login">Login</a>
+                                <a asp-controller="UserClient" asp-action="LoginUser">Login</a>
                             }
                         </li>
                     </ul>
