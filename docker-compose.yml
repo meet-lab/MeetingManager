@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  meetingmanagermvc:
+    image: ${DOCKER_REGISTRY-}meetingmanagermvc
+    build:
+      context: .
+      dockerfile: MeetingManagerMvc/Dockerfile
+    ports:
+      - "8001:443"
+    networks:
+      - meeting-manager-network
+
+  meetingmanager:
+    image: ${DOCKER_REGISTRY-}meetingmanager
+    build:
+      context: .
+      dockerfile: MeetingManager/Dockerfile
+    ports:
+      - "0.0.0.0:8088:445"
+      - "8080:44303"
+      - "8008:5416"
+      - "8808:5001"
+    networks:
+      - meeting-manager-network
+
+  ms-sql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Pa55w0rd2021"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+
+networks:
+  meeting-manager-network:
+    external: true
