@@ -19,6 +19,5 @@ namespace MeetingManager.Models
         [Display(Name = "Remember me")]
         public bool RememberLogin { get; set; }
         public string ReturnUrl { get; set; }
-
     }
 }

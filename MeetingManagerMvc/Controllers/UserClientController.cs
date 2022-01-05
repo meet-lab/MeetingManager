@@ -1,4 +1,5 @@
 ﻿using MeetingManager.Models;
+using MeetingManagerMvc.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -53,11 +54,53 @@ namespace MeetingManagerMvc.Controllers
             return NotFound();
         }
 
-
-        // GET: UserClientController/Create
-        public ActionResult Create()
+        public IActionResult RegistryUser(string ReturnUrl = "/")
         {
-            return View();
+            UserRegistryModel registryModel = new()
+            {
+                ReturnUrl = ReturnUrl
+            };
+
+            return View(registryModel);
+        }
+
+        // POST: UserClientController/RegistryUser
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegistryUser([Bind("UserName, EmailAddress, Password, RepeatPassword")] UserRegistryModel registryUser)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (registryUser.Password == registryUser.RepeatPassword)
+                    {
+                        User user = new()
+                        {
+                            UserName = registryUser.UserName,
+                            EmailAddress = registryUser.EmailAddress,
+                            Password = registryUser.Password
+                        };
+
+                        HttpResponseMessage response = await client.PostAsJsonAsync(WebApiPath + "Users", user);
+                        response.EnsureSuccessStatusCode();
+
+                        return Redirect("/UserClient/LoginUser");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Inserted passwords doesn't match";
+                        return View(registryUser);
+                    }
+
+                }
+                catch (Exception exception)
+                {
+                    return Redirect("/Home/Error");
+                }
+            }
+
+            return View(registryUser);
         }
 
         public IActionResult LoginUser(string ReturnUrl = "/")
@@ -120,20 +163,6 @@ namespace MeetingManagerMvc.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return LocalRedirect("/");
-        }
-
-        // POST: UserClientController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("Id,Name,IsComplete")] User user)
-        {
-            if (ModelState.IsValid)
-            {
-                HttpResponseMessage response = await client.PostAsJsonAsync(WebApiPath, user);
-                response.EnsureSuccessStatusCode();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(user);
         }
 
         // GET: UserClientController/Edit/5
