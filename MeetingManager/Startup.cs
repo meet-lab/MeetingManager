@@ -62,6 +62,7 @@ namespace MeetingManager
 
             services.AddDbContext<MeetingManagerContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MeetingManagerContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,8 +75,6 @@ namespace MeetingManager
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MeetingManager v1"));
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();
@@ -84,6 +83,12 @@ namespace MeetingManager
             {
                 endpoints.MapControllers();
             });
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<MeetingManagerContext>();
+                context.Database.Migrate();
+            }
         }
     }
 }
