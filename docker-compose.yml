@@ -17,6 +17,8 @@ services:
       context: .
       dockerfile: MeetingManager/Dockerfile
     ports:
+      - "0.0.0.0:8088:445"
+      - "8080:44303"
       - "8008:5416"
       - "8088:445"
       - "8080:44303"
