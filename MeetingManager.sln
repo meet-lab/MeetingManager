@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingManager", "MeetingManager\MeetingManager.csproj", "{2F1D705B-F6F0-4306-83F6-40349B1383F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingManagerMvc", "MeetingManagerMvc\MeetingManagerMvc.csproj", "{C5399C37-6CEA-4A00-ADBA-4014C987C5BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingManagerMvc", "MeetingManagerMvc\MeetingManagerMvc.csproj", "{C5399C37-6CEA-4A00-ADBA-4014C987C5BB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2F1D705B-F6F0-4306-83F6-40349B1383F7} = {2F1D705B-F6F0-4306-83F6-40349B1383F7}
 	EndProjectSection

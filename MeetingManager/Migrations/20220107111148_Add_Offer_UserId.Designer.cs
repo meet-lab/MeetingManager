@@ -4,14 +4,16 @@ using MeetingManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetingManager.Migrations
 {
     [DbContext(typeof(MeetingManagerContext))]
-    partial class MeetingManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20220107111148_Add_Offer_UserId")]
+    partial class Add_Offer_UserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +46,7 @@ namespace MeetingManager.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -77,11 +79,11 @@ namespace MeetingManager.Migrations
 
             modelBuilder.Entity("MeetingManager.Models.Offer", b =>
                 {
-                    b.HasOne("MeetingManager.Models.User", null)
+                    b.HasOne("MeetingManager.Models.User", "User")
                         .WithMany("Offers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MeetingManager.Models.User", b =>

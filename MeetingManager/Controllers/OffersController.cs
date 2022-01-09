@@ -23,9 +23,17 @@ namespace MeetingManager
 
         // GET: api/Offers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Offer>>> GetOffer()
+        public async Task<ActionResult<IEnumerable<Offer>>> GetOffer(string PerPage)
         {
-            return await _context.Offer.ToListAsync();
+           List<Offer> offers = await _context.Offer.ToListAsync();
+            int parserPerPage = Int32.Parse(PerPage);
+
+        //   if (PerPage != null && parserPerPage != 0)
+        //   {
+        //       var takenOffers = offers.Take(4);
+        //       return takenOffers;
+        //   }
+            return offers;
         }
 
         // GET: api/Offers/5
@@ -76,12 +84,25 @@ namespace MeetingManager
         // POST: api/Offers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Offer>> PostOffer(Offer offer)
+        public async Task<ActionResult<Offer>> PostOffer(CreateOfferModel offer)
         {
-            _context.Offer.Add(offer);
+                
+                Offer newOffer = new Offer
+                {
+                    Title = offer.Title,
+                    Description = offer.Description,
+                    Status = offer.Status,
+                    Price = offer.Price,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
+                    UserId = offer.UserId,
+                };
+
+            _context.Offer.Add(newOffer);
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOffer", new { id = offer.Id }, offer);
+            return CreatedAtAction("GetOffer", new { id = newOffer.Id }, newOffer);
         }
 
         // DELETE: api/Offers/5

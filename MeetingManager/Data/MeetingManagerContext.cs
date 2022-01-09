@@ -14,21 +14,17 @@ namespace MeetingManager.Data
         {
         }
 
-        public DbSet<MeetingManager.Models.User> User { get; set; }
+        public DbSet<User> User { get; set; }
 
-        public DbSet<MeetingManager.Models.Offer> Offer { get; set; }
+        public DbSet<Offer> Offer { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Add the shadow property to the model
-            modelBuilder.Entity<MeetingManager.Models.Offer>()
-                .Property<int>("UserForeignKey");
 
-            // Use the shadow property as a foreign key
-            modelBuilder.Entity<MeetingManager.Models.Offer>()
-                .HasOne(p => p.User)
-                .WithMany(b => b.Offers)
-                .HasForeignKey("UserForeignKey");
+            // Add the shadow property to the model
+            modelBuilder.Entity<Offer>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(10,4)");
         }
     }
 }

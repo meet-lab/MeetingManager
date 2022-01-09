@@ -19,6 +19,6 @@ namespace MeetingManager.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        public List<Offer> Offers { get; set; }
+        public virtual ICollection<Offer> Offers { get; set; }
     }
 }

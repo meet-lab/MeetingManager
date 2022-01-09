@@ -1,26 +1,41 @@
-﻿using MeetingManagerMvc.Models;
+﻿using MeetingManager.Models;
+using MeetingManagerMvc.Models;
+using MeetingManagerMvc.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MeetingManagerMvc.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly HttpClient client;
+        private readonly string WebApiPath;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IConfiguration configuration)
         {
-            _logger = logger;
+            var http = new HttpWebClient(configuration);
+            client = http.GetClient();
+            WebApiPath = http.GetWebApiPath();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<Offer> offers = null;
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Offers?PerPage=5");
+            if (response.IsSuccessStatusCode)
+            {
+                offers = await response.Content.ReadAsAsync<List<Offer>>();
+            }
+
+            return View(offers);
+
         }
 
         public IActionResult Privacy()
