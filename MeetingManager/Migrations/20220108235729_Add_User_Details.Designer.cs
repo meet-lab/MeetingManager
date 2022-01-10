@@ -4,14 +4,16 @@ using MeetingManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetingManager.Migrations
 {
     [DbContext(typeof(MeetingManagerContext))]
-    partial class MeetingManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20220108235729_Add_User_Details")]
+    partial class Add_User_Details
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,7 +79,7 @@ namespace MeetingManager.Migrations
 
             modelBuilder.Entity("MeetingManager.Models.UserDetail", b =>
                 {
-                    b.Property<int>("UserDetailId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -109,13 +111,12 @@ namespace MeetingManager.Migrations
                     b.Property<string>("SecondName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserDetailId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserDetail");
                 });
@@ -133,18 +134,16 @@ namespace MeetingManager.Migrations
 
             modelBuilder.Entity("MeetingManager.Models.UserDetail", b =>
                 {
-                    b.HasOne("MeetingManager.Models.User", null)
-                        .WithOne("UserDetail")
-                        .HasForeignKey("MeetingManager.Models.UserDetail", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("MeetingManager.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MeetingManager.Models.User", b =>
                 {
                     b.Navigation("Offers");
-
-                    b.Navigation("UserDetail");
                 });
 #pragma warning restore 612, 618
         }

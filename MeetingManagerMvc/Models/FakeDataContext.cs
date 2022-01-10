@@ -4,10 +4,12 @@ using System;
 
 namespace MeetingManagerMvc.Models
 {
-    public class FakeDataContext: DbContext
+    public class FakeDataContext : DbContext
     {
-        public FakeDataContext(DbContextOptions<FakeDataContext> options): base(options) { }
+        public FakeDataContext(DbContextOptions<FakeDataContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<UserDetail> UserDetail { get; set; }
     }
 }
