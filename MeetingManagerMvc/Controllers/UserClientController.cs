@@ -32,7 +32,7 @@ namespace MeetingManagerMvc.Controllers
         public async Task<ActionResult> Index()
         {
             List<User> users = null;
-            HttpResponseMessage response = await client.GetAsync(WebApiPath);
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "/Users");
             if (response.IsSuccessStatusCode)
             {
                 users = await response.Content.ReadAsAsync<List<User>>();

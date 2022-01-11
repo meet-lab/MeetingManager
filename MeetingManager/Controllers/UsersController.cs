@@ -91,7 +91,7 @@ namespace MeetingManager
         public async Task<ActionResult<User>> LoginUser([FromBody] LoginModel loginData)
         {
             var user = await _context.User.Where(u => (u.EmailAddress == loginData.EmailAddressOrUserName || u.UserName == loginData.EmailAddressOrUserName )
-            && u.Password == loginData.Password).FirstAsync();
+            && u.Password == loginData.Password).FirstOrDefaultAsync();
 
             if (user == null)
             {

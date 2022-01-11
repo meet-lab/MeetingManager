@@ -9,7 +9,5 @@ namespace MeetingManagerMvc.Models
         public FakeDataContext(DbContextOptions<FakeDataContext> options): base(options) { }
 
         public DbSet<User> Users { get; set; }
-
-        public DbSet<MeetingManager.Models.User> User { get; set; }
     }
 }
