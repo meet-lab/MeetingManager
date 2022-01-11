@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace MeetingManager.Models
+namespace MeetingManagerMvc.Models
 {
-    public class Offer
+    public class CreateOfferModel
     {
-        public int Id { get; set; }
+        [Required]
+        [MinLength(3)]
         public string Title { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
+        [Required]
+        [Range(0,999999)]
         public decimal Price { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime CreatedAt { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime UpdatedAt { get; set; }
-        [ForeignKey("UserId")]
         public int UserId { get; set; }
     }
-
 }

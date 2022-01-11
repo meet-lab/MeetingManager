@@ -4,14 +4,16 @@ using MeetingManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetingManager.Migrations
 {
     [DbContext(typeof(MeetingManagerContext))]
-    partial class MeetingManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20220109124811_Change_User_Offer_Rel")]
+    partial class Change_User_Offer_Rel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,74 +77,20 @@ namespace MeetingManager.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("MeetingManager.Models.UserDetail", b =>
-                {
-                    b.Property<int>("UserDetailId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Region")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SecondName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserDetailId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("UserDetail");
-                });
-
             modelBuilder.Entity("MeetingManager.Models.Offer", b =>
                 {
-                    b.HasOne("MeetingManager.Models.User", null)
+                    b.HasOne("MeetingManager.Models.User", "User")
                         .WithMany("Offers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("MeetingManager.Models.UserDetail", b =>
-                {
-                    b.HasOne("MeetingManager.Models.User", null)
-                        .WithOne("UserDetail")
-                        .HasForeignKey("MeetingManager.Models.UserDetail", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MeetingManager.Models.User", b =>
                 {
                     b.Navigation("Offers");
-
-                    b.Navigation("UserDetail");
                 });
 #pragma warning restore 612, 618
         }

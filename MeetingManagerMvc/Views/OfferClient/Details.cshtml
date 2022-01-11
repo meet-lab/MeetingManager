@@ -1,0 +1,31 @@
+﻿@model MeetingManager.Models.Offer
+
+@{
+    ViewData["Title"] = Model != null ? Model.Title + " | Offer Details" : "Offer Details";
+}
+
+<section class="accomodation_area section_gap">
+    <div class="container">
+        <div class="section_title text-center">
+            <h2 class="title_color">Hotel Accomodation</h2>
+            <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast, </p>
+        </div>
+
+        @{if (Model != null)
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <img class="img-fluid" src="~/image/offer_placeholder.jpg" alt="img">
+                    </div>
+                    <div class="col-md-6 d_flex align-items-center">
+                        <div class="about_content ">
+                            <h2 class="title title_color">@Model.Title</h2>
+                            <p>@Model.Description</p>
+                            <a href="#" class="button_hover theme_btn_two">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</section>
