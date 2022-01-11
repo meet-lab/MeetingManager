@@ -80,7 +80,21 @@ namespace MeetingManager
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            user.UserDetail = new UserDetail()
+            {
+                Name = "",
+                SecondName = "",
+                LastName = "",
+                Address = "",
+                Phone = "",
+                City = "",
+                Country = "",
+                Region = "",
+                PostCode = ""
+            };
+
             _context.User.Add(user);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);

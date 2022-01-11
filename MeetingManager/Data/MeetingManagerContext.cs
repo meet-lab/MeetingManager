@@ -9,12 +9,14 @@ namespace MeetingManager.Data
 {
     public class MeetingManagerContext : DbContext
     {
-        public MeetingManagerContext (DbContextOptions<MeetingManagerContext> options)
+        public MeetingManagerContext(DbContextOptions<MeetingManagerContext> options)
             : base(options)
         {
         }
 
         public DbSet<MeetingManager.Models.User> User { get; set; }
+
+        public DbSet<MeetingManager.Models.UserDetail> UserDetail { get; set; }
 
         public DbSet<MeetingManager.Models.Offer> Offer { get; set; }
 
