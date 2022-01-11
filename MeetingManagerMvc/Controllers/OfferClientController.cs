@@ -1,9 +1,11 @@
-﻿using MeetingManagerMvc.Models;
+﻿using MeetingManager.Models;
+using MeetingManagerMvc.Models;
 using MeetingManagerMvc.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -22,9 +24,30 @@ namespace MeetingManagerMvc.Controllers
             WebApiPath = http.GetWebApiPath();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<Offer> offers = null;
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Offers?PerPage=5");
+            if (response.IsSuccessStatusCode)
+            {
+                offers = await response.Content.ReadAsAsync<List<Offer>>();
+            }
+
+            return View(offers);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Offers/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                Offer offer = await response.Content.ReadAsAsync<Offer>();
+                return View(offer);
+
+            }
+
+            return Redirect("/OfferClient");
         }
 
         [Authorize]
@@ -35,7 +58,7 @@ namespace MeetingManagerMvc.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateOfferModel model)
+        public async Task<IActionResult> Create(MeetingManagerMvc.Models.CreateOfferModel model)
         {
             var identity = User.Claims.Where(e => e.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").FirstOrDefault();
 

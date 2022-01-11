@@ -23,16 +23,30 @@ namespace MeetingManager
 
         // GET: api/Offers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Offer>>> GetOffer(string PerPage)
+        public async Task<ActionResult<IEnumerable<Offer>>> GetOffer(string perPage, string userId)
         {
-           List<Offer> offers = await _context.Offer.ToListAsync();
-            int parserPerPage = Int32.Parse(PerPage);
+           List<Offer> offers = null;
+            //   int parserPerPage = Int32.Parse(PerPage);
 
-        //   if (PerPage != null && parserPerPage != 0)
-        //   {
-        //       var takenOffers = offers.Take(4);
-        //       return takenOffers;
-        //   }
+            //   if (PerPage != null && parserPerPage != 0)
+            //   {
+            //       var takenOffers = offers.Take(4);
+            //       return takenOffers;
+            //   }
+
+            offers = await _context.Offer.ToListAsync();
+            if (userId != null)
+            {
+                int parsedUserId;
+                var parsingSuccess = int.TryParse(userId, out parsedUserId);
+                if(parsingSuccess)
+                {
+                    return await _context.Offer.Where(o => o.UserId == parsedUserId).ToListAsync();
+                }
+                return offers;
+            }
+
+
             return offers;
         }
 
@@ -59,6 +73,8 @@ namespace MeetingManager
             {
                 return BadRequest();
             }
+
+            offer.UpdatedAt = DateTime.Now;
 
             _context.Entry(offer).State = EntityState.Modified;
 

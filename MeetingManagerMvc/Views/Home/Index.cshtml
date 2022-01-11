@@ -103,47 +103,16 @@
                     <div class="col-lg-3 col-sm-6">
                         <div class="accomodation_item text-center">
                             <div class="hotel_img">
-                                <img src="image/room1.jpg" alt="">
+                                <img src="image/offer_placeholder.jpg" alt="">
                                 <a href="#" class="btn theme_btn button_hover">Book Now</a>
                             </div>
-                            <a href="#"><h4 class="sec_h4"> @Html.DisplayFor(modelItem => item.Title)</h4></a>
+                            <a href="/OfferClient/Details/@item.Id"><h4 class="sec_h4"> @Html.DisplayFor(modelItem => item.Title)</h4></a>
                             <h5>$ @Html.DisplayFor(modelItem => item.Price)<small>/night</small></h5>
                         </div>
                     </div>
                 }
             }
-
-                <div class="col-lg-3 col-sm-6">
-                    <div class="accomodation_item text-center">
-                        <div class="hotel_img">
-                            <img src="image/room2.jpg" alt="">
-                            <a href="#" class="btn theme_btn button_hover">Book Now</a>
-                        </div>
-                        <a href="#"><h4 class="sec_h4">Single Deluxe Room</h4></a>
-                        <h5>$200<small>/night</small></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="accomodation_item text-center">
-                        <div class="hotel_img">
-                            <img src="image/room3.jpg" alt="">
-                            <a href="#" class="btn theme_btn button_hover">Book Now</a>
-                        </div>
-                        <a href="#"><h4 class="sec_h4">Honeymoon Suit</h4></a>
-                        <h5>$750<small>/night</small></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="accomodation_item text-center">
-                        <div class="hotel_img">
-                            <img src="image/room4.jpg" alt="">
-                            <a href="#" class="btn theme_btn button_hover">Book Now</a>
-                        </div>
-                        <a href="#"><h4 class="sec_h4">Economy Double</h4></a>
-                        <h5>$200<small>/night</small></h5>
-                    </div>
-                </div>
-            </div>
+        </div>
     </div>
 </section>
 <!--================ Accomodation Area  =================-->
