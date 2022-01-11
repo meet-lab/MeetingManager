@@ -38,7 +38,7 @@
                                     {
                                         @if (@claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")
                                         {
-                                            @claim.Value
+                                            userName = claim.Value;
                                         }
                                         @if (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
                                         {
@@ -49,7 +49,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="UserDetailClient" asp-action="@userId">@userName</a>
+                                <a class="nav-link" asp-controller="UserDetailClient" asp-route-id="@userId" asp-action="Index">@userName</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="UserClient" asp-action="Logout">Logout</a>
