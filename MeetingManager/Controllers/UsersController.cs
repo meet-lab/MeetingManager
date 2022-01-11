@@ -80,7 +80,21 @@ namespace MeetingManager
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            user.UserDetail = new UserDetail()
+            {
+                Name = "",
+                SecondName = "",
+                LastName = "",
+                Address = "",
+                Phone = "",
+                City = "",
+                Country = "",
+                Region = "",
+                PostCode = ""
+            };
+
             _context.User.Add(user);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
@@ -91,7 +105,7 @@ namespace MeetingManager
         public async Task<ActionResult<User>> LoginUser([FromBody] LoginModel loginData)
         {
             var user = await _context.User.Where(u => (u.EmailAddress == loginData.EmailAddressOrUserName || u.UserName == loginData.EmailAddressOrUserName )
-            && u.Password == loginData.Password).FirstAsync();
+            && u.Password == loginData.Password).FirstOrDefaultAsync();
 
             if (user == null)
             {

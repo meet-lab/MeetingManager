@@ -2,6 +2,7 @@
 using MeetingManagerMvc.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -32,26 +33,12 @@ namespace MeetingManagerMvc.Controllers
         public async Task<ActionResult> Index()
         {
             List<User> users = null;
-            HttpResponseMessage response = await client.GetAsync(WebApiPath);
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "/Users");
             if (response.IsSuccessStatusCode)
             {
                 users = await response.Content.ReadAsAsync<List<User>>();
             }
             return View(users);
-        }
-
-
-
-        // GET: UserClientController/Details/5
-        public async Task<ActionResult> Details(int id)
-        {
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + id);
-            if (response.IsSuccessStatusCode)
-            {
-                User user = await response.Content.ReadAsAsync<User>();
-                return View(user);
-            }
-            return NotFound();
         }
 
         public IActionResult RegistryUser(string ReturnUrl = "/")
@@ -79,7 +66,7 @@ namespace MeetingManagerMvc.Controllers
                         {
                             UserName = registryUser.UserName,
                             EmailAddress = registryUser.EmailAddress,
-                            Password = registryUser.Password
+                            Password = registryUser.Password,
                         };
 
                         HttpResponseMessage response = await client.PostAsJsonAsync(WebApiPath + "Users", user);
@@ -159,6 +146,7 @@ namespace MeetingManagerMvc.Controllers
             return View(loginModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -166,13 +154,21 @@ namespace MeetingManagerMvc.Controllers
         }
 
         // GET: UserClientController/Edit/5
+        [Authorize]
         public async Task<ActionResult> Edit(int id)
         {
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + id);
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Users/" + id);
             if (response.IsSuccessStatusCode)
             {
                 User user = await response.Content.ReadAsAsync<User>();
-                return View(user);
+
+                UserRegistryModel registerUser = new()
+                {
+                    UserName = user.UserName,
+                    EmailAddress = user.EmailAddress
+                };
+
+                return View(registerUser);
             }
             return NotFound();
         }
@@ -180,38 +176,93 @@ namespace MeetingManagerMvc.Controllers
         // POST: UserClientController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, [Bind("Id,Name,IsComplete")] User user)
+        [Authorize]
+        public async Task<ActionResult> Edit(int id, [Bind("UserName,EmailAddress,Password,RepeatPassword")] UserRegistryModel registerUser)
         {
             if (ModelState.IsValid)
             {
-                HttpResponseMessage response = await client.PutAsJsonAsync(WebApiPath + id, user);
-                response.EnsureSuccessStatusCode();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    if (registerUser.Password == registerUser.RepeatPassword)
+                    {
+                        User user = new()
+                        {
+                            Id = id,
+                            UserName = registerUser.UserName,
+                            EmailAddress = registerUser.EmailAddress,
+                            Password = registerUser.Password,
+                        };
+
+                        HttpResponseMessage response = await client.PutAsJsonAsync(WebApiPath + "Users/" + id, user);
+                        response.EnsureSuccessStatusCode();
+
+                        return Redirect("/UserDetailClient/Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Inserted passwords doesn't match";
+
+                        return View(registerUser);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    return Redirect("/Home/Error");
+                }
+                
             }
-            return View(user);
+
+            return View(registerUser);
         }
 
         // GET: UserClientController/Delete/5
+        [Authorize]
         public async Task<ActionResult> Delete(int id)
         {
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + id);
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Users/" + id);
             if (response.IsSuccessStatusCode)
             {
                 User user = await response.Content.ReadAsAsync<User>();
-                return View(user);
+
+                UserRegistryModel deleteUserModel = new()
+                {
+                    UserName = user.UserName,
+                    Password = user.Password,
+                    EmailAddress = user.EmailAddress,
+                    RepeatPassword = ""
+                };
+
+                return View(deleteUserModel);
             }
+
             return NotFound();
         }
-
 
         // POST: UserClientController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, int notUsed = 0)
+        [Authorize]
+        public async Task<ActionResult> Delete(int id, [Bind("UserName,EmailAddress,RepeatPassword,Password")] UserRegistryModel deleteUser)
         {
-            HttpResponseMessage response = await client.DeleteAsync(WebApiPath + id);
-            response.EnsureSuccessStatusCode();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                if (deleteUser.Password == deleteUser.RepeatPassword)
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(WebApiPath + "Users/" + id);
+                    response.EnsureSuccessStatusCode();
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    return LocalRedirect("/");
+                }
+                else
+                {
+                    ViewBag.Message = "Wrong password was provided try again!";
+
+                    return View(deleteUser);
+                }
+            }
+
+            return View(deleteUser);
         }
     }
 }

@@ -20,5 +20,7 @@ namespace MeetingManager.Models
         public string Password { get; set; }
 
         public virtual ICollection<Offer> Offers { get; set; }
+
+        public virtual UserDetail UserDetail { get; set; }
     }
 }

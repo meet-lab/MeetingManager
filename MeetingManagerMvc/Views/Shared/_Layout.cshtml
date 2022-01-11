@@ -11,6 +11,10 @@
 </head>
 <body>
     <header class="header_area">
+        @{
+            string userName = "";
+            string userId = "";
+        }
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -36,9 +40,16 @@
                                         {
                                             @claim.Value
                                         }
+                                        @if (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
+                                        {
+                                            userId = claim.Value;
+                                        }
                                     }
 
                                 </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="UserDetailClient" asp-action="@userId">@userName</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="UserClient" asp-action="Logout">Logout</a>
