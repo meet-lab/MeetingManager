@@ -27,5 +27,11 @@ namespace MeetingManager.Data
                 .Property(p => p.Price)
                 .HasColumnType("decimal(10,4)");
         }
+
+        public DbSet<MeetingManager.Models.Order> Order { get; set; }
+
+        public DbSet<MeetingManager.Models.Cart> Cart { get; set; }
+
+        public DbSet<MeetingManager.Models.CartLineItem> CartLineItem { get; set; }
     }
 }

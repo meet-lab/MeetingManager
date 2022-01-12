@@ -4,66 +4,22 @@ using MeetingManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetingManager.Migrations
 {
     [DbContext(typeof(MeetingManagerContext))]
-    partial class MeetingManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20220111211516_Add_Order_And_Cart_Entity")]
+    partial class Add_Order_And_Cart_Entity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("MeetingManager.Models.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Cart");
-                });
-
-            modelBuilder.Entity("MeetingManager.Models.CartLineItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("OfferId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("To")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("OfferId");
-
-                    b.ToTable("CartLineItem");
-                });
 
             modelBuilder.Entity("MeetingManager.Models.Offer", b =>
                 {
@@ -107,8 +63,8 @@ namespace MeetingManager.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -209,30 +165,6 @@ namespace MeetingManager.Migrations
                     b.ToTable("UserDetail");
                 });
 
-            modelBuilder.Entity("MeetingManager.Models.Cart", b =>
-                {
-                    b.HasOne("MeetingManager.Models.User", null)
-                        .WithOne("Cart")
-                        .HasForeignKey("MeetingManager.Models.Cart", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MeetingManager.Models.CartLineItem", b =>
-                {
-                    b.HasOne("MeetingManager.Models.Cart", null)
-                        .WithMany("CartLineItems")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MeetingManager.Models.Offer", "Offer")
-                        .WithMany()
-                        .HasForeignKey("OfferId");
-
-                    b.Navigation("Offer");
-                });
-
             modelBuilder.Entity("MeetingManager.Models.Offer", b =>
                 {
                     b.HasOne("MeetingManager.Models.User", null)
@@ -266,15 +198,8 @@ namespace MeetingManager.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MeetingManager.Models.Cart", b =>
-                {
-                    b.Navigation("CartLineItems");
-                });
-
             modelBuilder.Entity("MeetingManager.Models.User", b =>
                 {
-                    b.Navigation("Cart");
-
                     b.Navigation("Offers");
 
                     b.Navigation("Orders");

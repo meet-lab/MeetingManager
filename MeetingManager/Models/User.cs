@@ -21,6 +21,10 @@ namespace MeetingManager.Models
 
         public virtual ICollection<Offer> Offers { get; set; }
 
+        public virtual ICollection<Order> Orders { get; set; }
+
         public virtual UserDetail UserDetail { get; set; }
+        
+        public virtual Cart Cart { get; set; }
     }
 }

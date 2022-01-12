@@ -93,6 +93,8 @@ namespace MeetingManager
                 PostCode = ""
             };
 
+            user.Cart = new Cart(){};
+
             _context.User.Add(user);
 
             await _context.SaveChangesAsync();
