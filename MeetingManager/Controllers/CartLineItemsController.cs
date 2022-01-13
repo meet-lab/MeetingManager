@@ -43,7 +43,8 @@ namespace MeetingManager.Controllers
         }
 
         // GET: api/CartLineItems/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("/api/CartLineItems/GetCartLineItem/{id}")]
         public async Task<ActionResult<CartLineItem>> GetCartLineItem(int id)
         {
             var cartLineItem = await _context.CartLineItem.FindAsync(id);
@@ -90,8 +91,18 @@ namespace MeetingManager.Controllers
         // POST: api/CartLineItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CartLineItem>> PostCartLineItem(CartLineItem cartLineItem)
+        public async Task<ActionResult<CartLineItem>> PostCartLineItem(LineItemModel lineItem)
         {
+            CartLineItem cartLineItem = new()
+            {
+                CartId = lineItem.CartId,
+                OfferId = lineItem.OfferId,
+                TotalPrice = ((lineItem.To - lineItem.From).Days * lineItem.Price),
+                From = lineItem.From,
+                To = lineItem.To,
+                Name = lineItem.Name,
+            };
+
             _context.CartLineItem.Add(cartLineItem);
             await _context.SaveChangesAsync();
 

@@ -50,17 +50,21 @@ namespace MeetingManager.Migrations
                     b.Property<DateTime>("From")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OfferId")
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OfferId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("To")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CartId");
-
-                    b.HasIndex("OfferId");
 
                     b.ToTable("CartLineItem");
                 });
@@ -225,12 +229,6 @@ namespace MeetingManager.Migrations
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("MeetingManager.Models.Offer", "Offer")
-                        .WithMany()
-                        .HasForeignKey("OfferId");
-
-                    b.Navigation("Offer");
                 });
 
             modelBuilder.Entity("MeetingManager.Models.Offer", b =>

@@ -1,8 +1,7 @@
 ﻿using System;
-using MeetingManager.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace MeetingManagerMvc.Models
+namespace MeetingManager.Models
 {
     public class LineItemModel
     {
@@ -19,5 +18,9 @@ namespace MeetingManagerMvc.Models
         [Required]
         [Display(Name = "When you want to book out?")]
         public DateTime To { get; set; }
+
+        public string Name { get; set; }
+
+        public decimal Price { get; set; }
     }
 }

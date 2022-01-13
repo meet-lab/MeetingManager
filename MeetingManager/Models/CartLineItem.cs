@@ -18,6 +18,10 @@ namespace MeetingManager.Models
 
         public DateTime To { get; set; }
 
-        public virtual Offer Offer { get; set; }
+        public string Name { get;set; }
+
+        public decimal TotalPrice { get; set; }
+
+        public int OfferId { get; set; }
     }
 }

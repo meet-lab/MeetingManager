@@ -1,5 +1,4 @@
 ﻿using MeetingManager.Models;
-using MeetingManagerMvc.Models;
 using MeetingManagerMvc.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,10 +25,10 @@ namespace MeetingManagerMvc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Confirm(int offerId)
+        public async Task<IActionResult> Confirm(int id)
         {
             // Nie mogę pobrać id z request
-            HttpResponseMessage offertResponse = await client.GetAsync(WebApiPath + "Offers/" + 1);
+            HttpResponseMessage offertResponse = await client.GetAsync(WebApiPath + "Offers/" + id);
             Offer offert = await offertResponse.Content.ReadAsAsync<Offer>();
 
             LineItemModel lineItemModel = new()
@@ -62,9 +61,13 @@ namespace MeetingManagerMvc.Controllers
 
                 if (cartResponse.IsSuccessStatusCode)
                 {
+                    lineItem.Price = offert.Price;
+                    lineItem.Name = offert.Title;
                     lineItem.CartId = cart.Id;
-                    // Jak dodam offerte jako obiekt tworzy się błąd 500
+                    lineItem.OfferId = offert.Id;
+
                     HttpResponseMessage cartLineItemResponse = await client.PostAsJsonAsync(WebApiPath + "CartLineItems/", lineItem);
+                    cartLineItemResponse.EnsureSuccessStatusCode();
 
                     return Redirect("/OfferClient/Details/" + offert.Id);
                 }
@@ -99,12 +102,10 @@ namespace MeetingManagerMvc.Controllers
             return View(lineItems);
         }
 
-
-        // GET: CartLineItems/Delete/5
         [Authorize]
         public async Task<ActionResult> Delete(int id)
         {
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + "CartLineItems/GetLineItem/" + id);
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "CartLineItems/GetCartLineItem/" + id);
             
             if (response.IsSuccessStatusCode)
             {
@@ -130,6 +131,38 @@ namespace MeetingManagerMvc.Controllers
             {
                 return Redirect("/Home/Error");
             }
+        }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "CartLineItems/GetCartLineItem/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                CartLineItem cartLineItem = await response.Content.ReadAsAsync<CartLineItem>();
+                return View(cartLineItem);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(int id, CartLineItem cartLineItem)
+        {
+            if (ModelState.IsValid)
+            {
+                HttpResponseMessage offertResponse = await client.GetAsync(WebApiPath + "Offers/" + cartLineItem.OfferId);
+                Offer offert = await offertResponse.Content.ReadAsAsync<Offer>();
+
+                cartLineItem.TotalPrice = (decimal)(((cartLineItem.To - cartLineItem.From).Days) * offert.Price);
+
+                HttpResponseMessage response = await client.PutAsJsonAsync(WebApiPath + "CartLineItems/" + cartLineItem.Id, cartLineItem);
+                response.EnsureSuccessStatusCode();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(cartLineItem);
         }
     }
 }
