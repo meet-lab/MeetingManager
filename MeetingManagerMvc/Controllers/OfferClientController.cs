@@ -91,11 +91,8 @@ namespace MeetingManagerMvc.Controllers
                 {
                     return Redirect("/Home/Error");
                 }
-
             }
-
             return View(model);
-
         }
     }
 }
