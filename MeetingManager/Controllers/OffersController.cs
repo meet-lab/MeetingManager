@@ -23,7 +23,7 @@ namespace MeetingManager
 
         // GET: api/Offers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Offer>>> GetOffer(string perPage, string userId)
+        public async Task<ActionResult<IEnumerable<Offer>>> GetOffer(string perPage, string userId, string offerStatus)
         {
            List<Offer> offers = null;
             //   int parserPerPage = Int32.Parse(PerPage);
@@ -41,7 +41,7 @@ namespace MeetingManager
                 var parsingSuccess = int.TryParse(userId, out parsedUserId);
                 if(parsingSuccess)
                 {
-                    return await _context.Offer.Where(o => o.UserId == parsedUserId).ToListAsync();
+                    return await _context.Offer.Where(o => o.UserId == parsedUserId && (offerStatus != null ? o.Status == offerStatus : true)).ToListAsync();
                 }
                 return offers;
             }
@@ -107,7 +107,7 @@ namespace MeetingManager
                 {
                     Title = offer.Title,
                     Description = offer.Description,
-                    Status = offer.Status,
+                    Status = (offer.Status == "draft" || offer.Status == "published") ? offer.Status : "draft",
                     Price = offer.Price,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
