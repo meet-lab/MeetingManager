@@ -27,7 +27,6 @@ namespace MeetingManagerMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Confirm(int id)
         {
-            // Nie mogę pobrać id z request
             HttpResponseMessage offertResponse = await client.GetAsync(WebApiPath + "Offers/" + id);
             Offer offert = await offertResponse.Content.ReadAsAsync<Offer>();
 
@@ -102,7 +101,6 @@ namespace MeetingManagerMvc.Controllers
             return View(lineItems);
         }
 
-        [Authorize]
         public async Task<ActionResult> Delete(int id)
         {
             HttpResponseMessage response = await client.GetAsync(WebApiPath + "CartLineItems/GetCartLineItem/" + id);

@@ -43,6 +43,44 @@ namespace MeetingManagerMvc.Controllers
             return View();
         }
 
+         async public Task<IActionResult> ThankYou(int id)
+        {
+            try
+            {
+                HttpResponseMessage orderResponse = await client.GetAsync(WebApiPath + "Orders/" + id);
+
+                if (orderResponse.IsSuccessStatusCode)
+                {
+                    var order = await orderResponse.Content.ReadAsAsync<Order>();
+                    
+                    HttpResponseMessage userResponse = await client.GetAsync(WebApiPath + "UsersDetail/" + order.UserId);
+                    var user = await userResponse.Content.ReadAsAsync<UserDetail>();
+
+                    HttpResponseMessage OfferResponse = await client.GetAsync(WebApiPath + "Offers/" + order.OfferId);
+                    var offert = await OfferResponse.Content.ReadAsAsync<Offer>();
+
+                    userResponse.EnsureSuccessStatusCode();
+                    OfferResponse.EnsureSuccessStatusCode();
+
+                    ThankYouModel thankYou = new()
+                    {
+                        Order = order,
+                        Offert = offert,
+                        User = user
+                    };
+
+                    return View(thankYou);
+                }
+
+                return Redirect("/");
+            }
+            catch (Exception exception)
+            {
+                return Redirect("/Home/Error");
+            }
+
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
