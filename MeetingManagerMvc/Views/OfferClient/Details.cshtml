@@ -21,7 +21,7 @@
                         <div class="about_content ">
                             <h2 class="title title_color">@Model.Title</h2>
                             <p>@Model.Description</p>
-                            <a href="#" class="button_hover theme_btn_two">Add to cart</a>
+                            <a class="button_hover theme_btn_two" asp-controller="CartClient" asp-action="Confirm" asp-route-id="@Model.Id" >Add to cart</a>
                         </div>
                     </div>
                 </div>
