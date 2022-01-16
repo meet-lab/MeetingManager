@@ -30,12 +30,17 @@
                             </div>
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="btn-check" name="Status" id="draft" value="draft" autocomplete="off" checked>Create as draft
+                                    <input type="radio" asp-for="Status" class="btn-check" name="Status" id="draft" value="draft" autocomplete="off"> Save as draft
                                 </label>
                             </div>
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="btn-check" name="Status" id="published" value="published" autocomplete="off">Create published offer
+                                    <input type="radio" asp-for="Status" class="btn-check" name="Status" id="published" value="published" autocomplete="off"> Publish offer
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" asp-for="Status" class="btn-check" name="Status" id="archived" value="archived" autocomplete="off"> Archive offer
                                 </label>
                             </div>
 
@@ -45,7 +50,11 @@
                                 <span asp-validation-for="Price" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <button type="submit" value="submit" class="btn theme_btn button_hover">Create offer</button>
+                                <input asp-for="Id" type="hidden" class="form-control" />
+                                <input asp-for="UserId" type="hidden" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" value="submit" class="btn theme_btn button_hover">Edit offer</button>
                             </div>
                         </div>
                     </form>

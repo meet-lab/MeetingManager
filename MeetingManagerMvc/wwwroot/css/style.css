@@ -3602,3 +3602,26 @@ h1, h2, h3, h4, h5, h6 {
 /*---------------------------------------------------- */
 
 /*# sourceMappingURL=style.css.map */
+
+.nav-borders {
+    margin-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+}
+
+.nav-link.active {
+    color: #f3c300 !important;
+    border-bottom-color: #f3c300 !important;
+}
+
+.nav-borders .nav-link {
+    color: #69707a;
+    border-bottom-width: 0.125rem;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}

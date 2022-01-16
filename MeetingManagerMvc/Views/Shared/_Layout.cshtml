@@ -29,7 +29,6 @@
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav mx-auto">
                         <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
 
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -49,7 +48,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="UserDetailClient" asp-route-id="@userId" asp-action="Index">@userName <i class="fas fa-user-alt"></i></a>
+                                <a class="nav-link" asp-controller="UserDetailClient" asp-route-id="@userId" asp-action="Index">@userName</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="CartClient" asp-action="Index">Cart <i class="fas fa-shopping-cart"></i></a>
