@@ -4,47 +4,26 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Finish your reservations now !</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.From)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.To)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalPrice)
-            </th>
-            <th>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.From)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.To)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalPrice)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                        <a href="#">Finishi now!</a>
-                    </td>
-                </tr>
-        }
-    </tbody>
-</table>
+<section class="contact_area section_gap">
+    <div class="container">
+        <div class="row justify-content-center align-items-center flex-column">
+            <div class="col-sm-12">
+                <h2 class="title_color">Cart</h2>
+            </div>
+            <div class="col-lg-6 col-sm-10">
+                @foreach (var item in Model)
+                {
+                <div class="cart-line-item">
+                    <h3>@item.Name</h3>
+                    <p>From: @item.From | To: @item.To</p>
+                    <p>Total costs: @item.TotalPrice</p>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn custom-danger danger-hover">Remove <i class="fas fa-trash-alt"></i></a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn theme_btn button_hover">Edit <i class="fas fa-edit"></i></a>
+                    <a asp-controller="OrderClient" asp-action="Create" asp-route-id="@item.Id" class="btn theme_btn button_hover">Finish now! <i class="fas fa-money-check"></i></a>
+                </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>

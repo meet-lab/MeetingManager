@@ -27,7 +27,6 @@ namespace MeetingManagerMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Confirm(int id)
         {
-            // Nie mogę pobrać id z request
             HttpResponseMessage offertResponse = await client.GetAsync(WebApiPath + "Offers/" + id);
             Offer offert = await offertResponse.Content.ReadAsAsync<Offer>();
 
@@ -102,15 +101,26 @@ namespace MeetingManagerMvc.Controllers
             return View(lineItems);
         }
 
-        [Authorize]
         public async Task<ActionResult> Delete(int id)
         {
             HttpResponseMessage response = await client.GetAsync(WebApiPath + "CartLineItems/GetCartLineItem/" + id);
             
             if (response.IsSuccessStatusCode)
             {
-                CartLineItem lineItem = await response.Content.ReadAsAsync<CartLineItem>();
-                return View(lineItem);
+
+                try
+                {
+                    CartLineItem lineItem = await response.Content.ReadAsAsync<CartLineItem>();
+
+                    HttpResponseMessage deelteRespone = await client.DeleteAsync(WebApiPath + "CartLineItems/" + lineItem.Id);
+                    response.EnsureSuccessStatusCode();
+
+                    return Redirect("/CartClient/Index");
+                }
+                catch (Exception exception)
+                {
+                    return Redirect("/Home/Error");
+                }
             }
 
             return NotFound();

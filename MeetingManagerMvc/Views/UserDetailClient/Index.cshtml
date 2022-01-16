@@ -33,6 +33,12 @@
                                 <a asp-controller="UserClient" asp-action="Edit" asp-route-id="@Model.UserId">Edit access data</a><br />
                                 <a asp-action="Edit" asp-route-id="@Model.UserId">Edit contact data</a><br />
                                 <a asp-controller="UserClient" asp-action="Delete" asp-route-id="@Model.UserId">Delete account</a>
+
+                                <a asp-controller="UserClient" asp-action="Edit" asp-route-id="@Model.UserId">Edit access data <i class="fas fa-user-edit"></i></a>
+    <a asp-action="Edit" asp-route-id="@Model.UserId">Edit contact data <i class="fas fa-user-edit"></i></a>
+    <a asp-controller="OrderClient" asp-action="List" asp-route-id="@Model.UserId">Orders <i class="fas fa-list"></i></a>
+    <a asp-controller="UserClient" asp-action="Delete" asp-route-id="@Model.UserId">Delete account <i class="fas fa-user-minus"></i></a>
+
                             </div>
                         </div>
                     </div>

@@ -14,7 +14,7 @@ namespace MeetingManager.Models
         [ForeignKey("UserId")]
         public int UserId { get; set; }
 
-        public Offer Offer { get; set; }
+        public int OfferId { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime From { get; set;}
