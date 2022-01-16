@@ -4,76 +4,43 @@
     ViewData["Title"] = "List";
 }
 
-<h1>List</h1>
+<section class="contact_area section_gap">
+    <div class="container">
+        <div class="row justify-content-center align-items-center flex-column">
+            <div class="col-sm-12">
+                <h2 class="title_color">Orders</h2>
+            </div>
+            <div class="col-lg-6 col-sm-10">
+                @foreach (var item in Model)
+                {
+                <div class="cart-line-item">
+                    @if (item.To < DateTime.Now)
+                    {
+                        <p class="order-status s-saved">Saved</p>
+                    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OfferId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.From)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.To)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EditDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfferId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.From)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.To)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                @if (item.Status != "Created")
-                {
-                    @Html.DisplayFor(modelItem => item.EditDate)
-                }
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                @if (item.Status == "Created")
-                {
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                }
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    else if (item.Status == "Canceled")
+                    {
+                        <p class="order-status s-canceld">Cancelled</p>
+                    }
+
+                    else if (item.Status == "Created")
+                    {
+                        <p class="order-status s-open">Open</p>
+                    }
+
+                    <h3>Order no. #@item.Id</h3>
+                    <p>From: @item.From | To: @item.To</p>
+                    <p>Total costs: @item.Amount</p>
+                    <a asp-action="OrderDetail" asp-route-id="@item.Id" class="btn theme_btn button_hover">Details</a>
+                    @if (item.Status == "Created" && item.To > DateTime.Now)
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn custom-danger danger-hover">Cancel <i class="fas fa-ban"></i></a>
+                    }
+                </div>
+                 }
+            </div>
+        </div>
+
+    </div>
+</section>
