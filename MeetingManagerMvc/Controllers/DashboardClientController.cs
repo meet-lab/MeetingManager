@@ -68,7 +68,7 @@ namespace MeetingManagerMvc.Controllers
         [Authorize]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Title,Description,Price,Status")] Offer offer)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,Id,Title,Description,Price,Status")] Offer offer)
         {
             var identity = User.Claims.Where(e => e.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").FirstOrDefault();
 
@@ -77,7 +77,7 @@ namespace MeetingManagerMvc.Controllers
                 return Redirect("/");
             }
             int userId = Int32.Parse(identity.Value);
-            HttpResponseMessage response = await client.PutAsJsonAsync(WebApiPath + "Offers/" + id + $"?userId={userId}", offer);
+            HttpResponseMessage response = await client.PutAsJsonAsync(WebApiPath + "Offers/" + id, offer);
             if (response.IsSuccessStatusCode)
             {
                 return Redirect("/DashboardClient");
@@ -106,6 +106,51 @@ namespace MeetingManagerMvc.Controllers
             }
 
             return Redirect("/DashboardClient");
+        }
+
+        [Authorize]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Create(MeetingManagerMvc.Models.CreateOfferModel model)
+        {
+            var identity = User.Claims.Where(e => e.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").FirstOrDefault();
+
+            if (identity == null)
+            {
+                return Redirect("/");
+            }
+
+            if (ModelState.IsValid)
+            {
+                int userId = Int32.Parse(identity.Value);
+
+                model.UserId = userId;
+                HttpResponseMessage response = await client.PostAsJsonAsync(WebApiPath + "Offers", model);
+
+                try
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        ViewBag.Message = "Offer has been created!";
+                        return Redirect("/");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Provided values is not valid.";
+                        return View(model);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    return Redirect("/Home/Error");
+                }
+            }
+            return View(model);
         }
     }
 }

@@ -2,72 +2,103 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    string ValidEmptyString(string text){
+        if(text == "")
+        {
+            return "-";
+        }
+        return text;
+    }
 }
 
-<h1>Index</h1>
+<section class="contact_area section_gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <nav class="nav nav-borders mb-3" style="border-bottom: 1px solid lightgray;">
+                    <a asp-controller="UserDetailClient" asp-action="Index" class="nav-link" style="color: #f3c300;">Profile</a>
+                    <a class="nav-link">Orders</a>
+                    <a asp-controller="DashboardClient" asp-action="Index" class="nav-link">Offers</a>
+                </nav>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-xl-4">
+                        <!-- Profile picture card-->
+                        <div class="card mb-4 mb-xl-0">
+                            <div class="card-header">Profile Picture</div>
+                            <div class="card-body text-center">
+                                <img class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                <a asp-controller="UserClient" asp-action="Edit" asp-route-id="@Model.UserId">Edit access data</a><br />
+                                <a asp-action="Edit" asp-route-id="@Model.UserId">Edit contact data</a><br />
+                                <a asp-controller="UserClient" asp-action="Delete" asp-route-id="@Model.UserId">Delete account</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8">
+                        <!-- Account details card-->
+                        <div class="card mb-4">
+                            <div class="card-header">Account Details</div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-4">
+                                            <label class="small mb-1" for="inputFirstName">First name</label>
+                                            <input class="form-control" id="inputFirstName" type="text" value="@ValidEmptyString(Model.Name)" disabled>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="small mb-1" for="inputFirstName">Second name (optional)</label>
+                                            <input class="form-control" id="inputFirstName" type="text" value="@ValidEmptyString(Model.SecondName)" disabled>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="small mb-1" for="inputLastName">Last name</label>
+                                            <input class="form-control" id="inputLastName" type="text" value="@ValidEmptyString(Model.LastName)" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-4">
+                                            <label class="small mb-1" for="inputOrgName">Country</label>
+                                            <input class="form-control" id="inputOrgName" type="text" value="@ValidEmptyString(Model.Country)" disabled>
+                                        </div>
 
-<div>
-    <h4>UserDetail</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SecondName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SecondName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Region)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Region)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-controller="UserClient" asp-action="Edit" asp-route-id="@Model.UserId">Edit access data</a>
-    <a asp-action="Edit" asp-route-id="@Model.UserId">Edit contact data</a>
-    <a asp-controller="UserClient" asp-action="Delete" asp-route-id="@Model.UserId">Delete account</a>
-</div>
+                                        <div class="col-md-4">
+                                            <label class="small mb-1" for="inputOrgName">City</label>
+                                            <input class="form-control" id="inputOrgName" type="text" value="@ValidEmptyString(Model.City)" disabled>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="small mb-1" for="inputOrgName">Region</label>
+                                            <input class="form-control" id="inputOrgName" type="text" value="@ValidEmptyString(Model.Region)" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-4">
+                                            <label class="small mb-1" for="inputLocation">Postal code</label>
+                                            <input class="form-control" id="inputLocation" type="text" value="@ValidEmptyString(Model.PostCode)" disabled>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="small mb-1" for="inputEmailAddress">Address</label>
+                                            <input class="form-control" id="inputEmailAddress" type="text" value="@ValidEmptyString(Model.Address)" disabled>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="small mb-1" for="inputPhone">Phone number</label>
+                                            <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="@ValidEmptyString(Model.Phone)" disabled>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 mt-3">
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
+</section>
+

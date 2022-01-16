@@ -24,21 +24,43 @@
         archivedStyles = "background-color: #f3c300;";
     }
 
+    string SetStatusBadge(string status)
+    {
+        if (status == "published")
+        {
+            return "success";
+        }else if (status == "draft")
+        {
+            return "warning";
+        }
+        else if (status == "archived")
+        {
+            return "danger";
+        }
+        return "warning";
+    }
 }
 
 <section class="accomodation_area section_gap">
     <div class="container">
-        <div class="section_title text-center">
-            <h2 class="title_color">Hotel Accomodation</h2>
-            <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast, </p>
-        </div>
-
         <div class="row">
-            <div class="col-lg-12">
-                <a href="/DashboardClient" class="btn theme_btn button_hover" style="@allStyles">All</a>
-                <a href="/DashboardClient?status=draft" class="btn theme_btn button_hover" style="@draftStyles">Draft</a>
-                <a href="/DashboardClient?status=published" class="btn theme_btn button_hover" style="@publishedStyles">Published</a>
-                <a href="/DashboardClient?status=archived" class="btn theme_btn button_hover" style="@archivedStyles">Archived</a>
+            <div class="col-sm-12">
+                <nav class="nav nav-borders mb-3" style="border-bottom: 1px solid lightgray;">
+                    <a asp-controller="UserDetailClient" asp-action="Index" class="nav-link">Profile</a>
+                    <a class="nav-link">Orders</a>
+                    <a asp-controller="DashboardClient" asp-action="Index" class="nav-link" style="color: #f3c300;">Offers</a>
+                </nav>
+            </div>
+            <div class="col-lg-12 d-flex justify-content-between">
+                <div>
+                    <a href="/DashboardClient" class="btn theme_btn button_hover" style="@allStyles">All</a>
+                    <a href="/DashboardClient?status=draft" class="btn theme_btn button_hover" style="@draftStyles">Draft</a>
+                    <a href="/DashboardClient?status=published" class="btn theme_btn button_hover" style="@publishedStyles">Published</a>
+                    <a href="/DashboardClient?status=archived" class="btn theme_btn button_hover" style="@archivedStyles">Archived</a>
+                </div>
+                <div>
+                    <a asp-controller="DashboardClient" asp-action="Create" class="btn theme_btn button_hover">Create Offer</a>
+                </div>
             </div>
         </div>
 
@@ -50,26 +72,27 @@
                     @foreach (var item in Model)
                     {
 
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="accomodation_item text-center">
-                                <div class="hotel_img">
-                                    <img src="image/offer_placeholder.jpg" alt="">
-                                    <a href="#" class="btn theme_btn button_hover">Buy Now</a>
+                            <div class="col-md-6 mt-2 cart-line-item d_flex align-items-center">
+                                <img class="img-fluid" style="width: 50px;" src="~/image/offer_placeholder.jpg" alt="img">
+                                <div class="about_content ml-2">
+                                    <h2 class="title title_color">Order no. #@item.Id</h2>
+                                    <p class="p-0">Created at: @item.CreatedAt | Updated at: @item.UpdatedAt</p>
+                                    <p class="p-0">Status: <span class="badge badge-@SetStatusBadge(@item.Status)">@item.Status</span></p>
+                                    <p class="p-0">@item.Description</p>
+                                    <a asp-controller="DashboardClient" asp-action="Edit" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: black;">Edit</a>
+                                    <a asp-controller="DashboardClient" asp-action="Delete" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: red;">Delete</a>
                                 </div>
-                                <a href="/OfferClient/Details/@item.Id"><h4 class="sec_h4"> @Html.DisplayFor(modelItem => item.Title)</h4></a>
-                                <a href="/DashboardClient/Edit/@item.Id">Edit offer</a>
-                                <h5>@Html.DisplayFor(modelItem => item.Price)$</h5>
                             </div>
-                        </div>
                     }
                 }
                 else
                 {
-                    <p>You don't have any offers with these requirements. You can add them by going to this url</p>
+                    <div class="col-lg-12 mt-4">
+                        <p>You don't have any offers with these requirements. You can add them by going to this url</p>
+                    </div>
                 }
 
             }
-
         </div>
     </div>
 </section>

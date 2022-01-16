@@ -6,8 +6,8 @@
     <title>@ViewData["Title"] - MeetingManagerMvc</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/style.css">
-    <link rel="stylesheet" href="~/css/responsive.css">
+    <link rel="stylesheet" href="~/css/responsive.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
 </head>
 <body>
     <header class="header_area">
@@ -28,26 +28,21 @@
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav mx-auto">
                         <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
 
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="UserClient" asp-action="Details">
-                                    @foreach (var claim in User.Claims)
+                                @foreach (var claim in User.Claims)
+                                {
+                                    @if (@claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")
                                     {
-                                        @if (@claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")
-                                        {
-                                            userName = claim.Value;
-                                        }
-                                        @if (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
-                                        {
-                                            userId = claim.Value;
-                                        }
+                                        userName = claim.Value;
                                     }
-                                </a>
-                            </li>
-                            <li class="nav-item">
+                                    @if (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
+                                    {
+                                        userId = claim.Value;
+                                    }
+                                }
                                 <a class="nav-link" asp-controller="UserDetailClient" asp-route-id="@userId" asp-action="Index">@userName</a>
                             </li>
                             <li class="nav-item">
