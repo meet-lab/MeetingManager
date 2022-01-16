@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/responsive.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 </head>
 <body>
     <header class="header_area">
@@ -48,20 +49,20 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="UserDetailClient" asp-route-id="@userId" asp-action="Index">@userName</a>
+                                <a class="nav-link" asp-controller="UserDetailClient" asp-route-id="@userId" asp-action="Index">@userName <i class="fas fa-user-alt"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="CartClient" asp-action="Index">Cart</a>
+                                <a class="nav-link" asp-controller="CartClient" asp-action="Index">Cart <i class="fas fa-shopping-cart"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="UserClient" asp-action="Logout">Logout</a>
+                                <a class="nav-link" asp-controller="UserClient" asp-action="Logout">Logout <i class="fas fa-sign-out-alt"></i></a>
                             </li>
 
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="UserClient" asp-action="LoginUser">Login</a>
+                                <a class="nav-link" asp-controller="UserClient" asp-action="LoginUser">Login <i class="fas fa-sign-in-alt"></i></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="UserClient" asp-action="RegistryUser">Register</a>
