@@ -69,5 +69,6 @@
 <div>
     <a asp-controller="UserClient" asp-action="Edit" asp-route-id="@Model.UserId">Edit access data</a>
     <a asp-action="Edit" asp-route-id="@Model.UserId">Edit contact data</a>
+    <a asp-controller="OrderClient" asp-action="List" asp-route-id="@Model.UserId">Orders</a>
     <a asp-controller="UserClient" asp-action="Delete" asp-route-id="@Model.UserId">Delete account</a>
 </div>

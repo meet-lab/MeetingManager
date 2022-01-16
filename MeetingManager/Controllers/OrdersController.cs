@@ -42,6 +42,16 @@ namespace MeetingManager.Controllers
             return order;
         }
 
+        // GET: api/Orders/5
+        [HttpGet]
+        [Route("/api/Orders/GetOrdersByUserId/{id}")]
+        public async Task<ActionResult<List<Order>>> GetOrdersByUserId(int id)
+        {
+            var orders = await _context.Order.Where(order => order.UserId == id).ToListAsync();
+
+            return orders;
+        }
+
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -76,8 +86,20 @@ namespace MeetingManager.Controllers
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        public async Task<ActionResult<Order>> PostOrder(NewOrderModel newOrder)
         {
+            Order order = new Order()
+            {
+                OfferId = newOrder.CartLineItem.OfferId,
+                Comment = newOrder.Comment,
+                From = newOrder.CartLineItem.From,
+                To = newOrder.CartLineItem.To,
+                Amount = newOrder.CartLineItem.TotalPrice,
+                CreateDate = DateTime.Now,
+                UserId = Int16.Parse(newOrder.UserId),
+                Status = "Created"
+            };
+
             _context.Order.Add(order);
             await _context.SaveChangesAsync();
 
