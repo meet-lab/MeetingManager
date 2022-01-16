@@ -107,8 +107,20 @@ namespace MeetingManagerMvc.Controllers
             
             if (response.IsSuccessStatusCode)
             {
-                CartLineItem lineItem = await response.Content.ReadAsAsync<CartLineItem>();
-                return View(lineItem);
+
+                try
+                {
+                    CartLineItem lineItem = await response.Content.ReadAsAsync<CartLineItem>();
+
+                    HttpResponseMessage deelteRespone = await client.DeleteAsync(WebApiPath + "CartLineItems/" + lineItem.Id);
+                    response.EnsureSuccessStatusCode();
+
+                    return Redirect("/CartClient/Index");
+                }
+                catch (Exception exception)
+                {
+                    return Redirect("/Home/Error");
+                }
             }
 
             return NotFound();
