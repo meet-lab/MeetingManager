@@ -20,16 +20,6 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <p>
-                            @if (Model.Order.EditDate != new DateTime())
-                            {
-                                <span>Edited: @Model.Order.EditDate</span>
-                            }
-
-                            else if (Model.Order.To < DateTime.Now)
-                            {
-                                <span>Expired: @expiredDate</span>
-                            }
-
                             @if (Model.Order.To < DateTime.Now)
                             {
                                 <span class="order-status s-saved">Saved</span>
@@ -43,6 +33,17 @@
                             else if (Model.Order.Status == "Created")
                             {
                                 <span class="order-status s-open">Open</span>
+                            }
+                        </p>
+                        <p>
+                            @if (Model.Order.EditDate != new DateTime())
+                            {
+                                <span>Edited: @Model.Order.EditDate</span>
+                            }
+
+                            else if (Model.Order.To < DateTime.Now)
+                            {
+                                <span>Expired: @expiredDate</span>
                             }
                         </p>
                             <br />
