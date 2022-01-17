@@ -39,7 +39,7 @@
                 <br />
                 <p>
                     Reservations dates :
-                    <span>Arrival: @Model.Order.From</span> | <span>Leave: @Model.Order.To</span>
+                    <span>Arrival: @Model.Order.From.ToString("d")</span> | <span>Leave: @Model.Order.To.ToString("d")</span>
                 </p>
                 @if (Model.Order.Comment != "" && Model.Order.Comment != null)
                 {
