@@ -1,29 +1,75 @@
 ﻿@model MeetingManagerMvc.Models.OrderDetailModel
 
 @{
-    ViewData["Title"] = "Order Details";
+    ViewData["Title"] = "Reservation Details";
 }
 
 <section class="accomodation_area section_gap">
     <div class="container">
-        <div class="section_title text-center">
-            <h2 class="title_color">Hotel Accomodation</h2>
-            <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast, </p>
-        </div>
-
         @{if (Model != null)
             {
+                DateTime expiredDate = Model.Order.To.AddDays(1);
+
+                <div class="section_title text-center">
+                    <h2 class="title_color">Order details for order no. <b>#@Model.Order.Id</b></h2>
+                    <p>
+                        We hope you are satisfied with our services!
+                    </p>
+                </div>
+
                 <div class="row">
-                    <div class="col-md-6">
-                        <img class="img-fluid" src="~/image/offer_placeholder.jpg" alt="img">
-                    </div>
-                    <div class="col-md-6 d_flex align-items-center">
-                        <div class="about_content ">
-                            <h2 class="title title_color">Order no. #@Model.Order.Id</h2>
-                            <p>Status: @Model.Order.Status</p> | @Model.Order.EditDate
-                            <p>@Model.Order.Comment</p>
+                    <div class="col-sm-12">
+                        <p>
+                            @if (Model.Order.EditDate != new DateTime())
+                            {
+                                <span>Edited: @Model.Order.EditDate</span>
+                            }
+
+                            else if (Model.Order.To < DateTime.Now)
+                            {
+                                <span>Expired: @expiredDate</span>
+                            }
+
+                            @if (Model.Order.To < DateTime.Now)
+                            {
+                                <span class="order-status s-saved">Saved</span>
+                            }
+
+                            else if (Model.Order.Status == "Canceled")
+                            {
+                                <span class="order-status s-canceld">@Model.Order.Status</span>
+                            }
+
+                            else if (Model.Order.Status == "Created")
+                            {
+                                <span class="order-status s-open">Open</span>
+                            }
+                        </p>
+                            <br />
+                            <hr />
+                            <div class="new-order-offert-details">
+                                <div class="new-order-offert-details-image">
+                                    <img src="~/image/offer_placeholder.jpg" alt="offer-small" />
+                                </div>
+                                <div class="new-order-offert-details-text">
+                                    <h5>@Model.Offert.Title</h5>
+                                    <p>Description: @Model.Offert.Description</p>
+                                </div>
+                            </div>
+                            <br />
+                            <p>
+                                Reservations dates :
+                                <span>Arrival: @Model.Order.From</span> | <span>Leave: @Model.Order.To</span>
+                            </p>
+                            @if (Model.Order.Comment != "" && Model.Order.Comment != null)
+                            {
+                                <p>Comment: @Model.Order.Comment</p>
+                            }
+                            <p>Bill: <b>@Model.Order.Amount</b></p>
                         </div>
-                    </div>
+                </div>
+                <div class="col col-sm-12" style="display:flex; justify-content: center; margin-top: 100px">
+                    <a asp-controller="OrderClient" asp-action="List" class="button_hover theme_btn_two">Back to list!</a>
                 </div>
             }
         }

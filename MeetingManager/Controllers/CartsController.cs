@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MeetingManager.Data;
 using MeetingManager.Models;
+using LibraryApi.Attributes;
 
 namespace MeetingManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiKey]
     public class CartsController : ControllerBase
     {
         private readonly MeetingManagerContext _context;

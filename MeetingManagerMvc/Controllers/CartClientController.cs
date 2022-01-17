@@ -68,7 +68,7 @@ namespace MeetingManagerMvc.Controllers
                     HttpResponseMessage cartLineItemResponse = await client.PostAsJsonAsync(WebApiPath + "CartLineItems/", lineItem);
                     cartLineItemResponse.EnsureSuccessStatusCode();
 
-                    return Redirect("/OfferClient/Details/" + offert.Id);
+                    return Redirect("/CartClient/Index/");
                 }
             }
             catch (Exception exception)
@@ -92,11 +92,9 @@ namespace MeetingManagerMvc.Controllers
             Cart cart = await cartResponse.Content.ReadAsAsync<Cart>();
 
             List<CartLineItem> lineItems = null;
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + "CartLineItems/?cartId" + cart.Id);
-            if (response.IsSuccessStatusCode)
-            {
-                lineItems = await response.Content.ReadAsAsync<List<CartLineItem>>();
-            }
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "CartLineItems/GetByCardId/" + cart.Id);
+
+            lineItems = await response.Content.ReadAsAsync<List<CartLineItem>>();
 
             return View(lineItems);
         }

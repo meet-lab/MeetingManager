@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MeetingManager.Data;
 using MeetingManager.Models;
 using LibraryApi.Attributes;
+using BC = BCrypt.Net.BCrypt;
 
 namespace MeetingManager
 {
@@ -94,6 +95,8 @@ namespace MeetingManager
             };
 
             user.Cart = new Cart(){};
+            var hashPasssword = BC.HashPassword(user.Password);
+            user.Password = hashPasssword;
 
             _context.User.Add(user);
 
@@ -106,10 +109,9 @@ namespace MeetingManager
         [HttpPost("LoginUser")]
         public async Task<ActionResult<User>> LoginUser([FromBody] LoginModel loginData)
         {
-            var user = await _context.User.Where(u => (u.EmailAddress == loginData.EmailAddressOrUserName || u.UserName == loginData.EmailAddressOrUserName )
-            && u.Password == loginData.Password).FirstOrDefaultAsync();
+            var user = await _context.User.Where(u => (u.EmailAddress == loginData.EmailAddressOrUserName || u.UserName == loginData.EmailAddressOrUserName )).FirstOrDefaultAsync();
 
-            if (user == null)
+            if (user == null || !BC.Verify(loginData.Password, user.Password))
             {
                 return NotFound();
             }
