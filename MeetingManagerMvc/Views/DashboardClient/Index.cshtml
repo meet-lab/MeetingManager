@@ -76,7 +76,7 @@
                                 <img class="img-fluid" style="width: 50px;" src="~/image/offer_placeholder.jpg" alt="img">
                                 <div class="about_content ml-2">
                                     <h2 class="title title_color">Order no. #@item.Id</h2>
-                                    <p class="p-0">Created at: @item.CreatedAt | Updated at: @item.UpdatedAt</p>
+                                    <p class="p-0">Created at: @item.CreatedAt.ToString("d") | Updated at: @item.UpdatedAt.ToString("d")</p>
                                     <p class="p-0">Status: <span class="badge badge-@SetStatusBadge(@item.Status)">@item.Status</span></p>
                                     <p class="p-0">@item.Description</p>
                                     <a asp-controller="DashboardClient" asp-action="Edit" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: black;">Edit</a>

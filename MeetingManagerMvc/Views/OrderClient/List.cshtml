@@ -30,7 +30,7 @@
                     }
 
                     <h3>Order no. #@item.Id</h3>
-                    <p>From: @item.From | To: @item.To</p>
+                    <p>From: @item.From.ToString("d") | To: @item.To.ToString("d")</p>
                     <p>Total costs: @item.Amount</p>
                     <a asp-action="OrderDetail" asp-route-id="@item.Id" class="btn theme_btn button_hover">Details</a>
                     @if (item.Status == "Created" && item.To > DateTime.Now)
