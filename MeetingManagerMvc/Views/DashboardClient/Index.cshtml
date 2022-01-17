@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<MeetingManager.Models.Offer>
 
 @{
+    string userId = "";
+
     ViewData["Title"] = "Client Offers";
     string currStatus = Context.Request.Query["status"];
-    string allStyles = "background-color: #f3c300;", draftStyles = "", publishedStyles ="", archivedStyles ="";
+    string allStyles = "background-color: #f3c300;", draftStyles = "", publishedStyles = "", archivedStyles = "";
     if (currStatus == "draft")
     {
         draftStyles = "background-color: black;";
     }
-    else if(currStatus == "published")
+    else if (currStatus == "published")
     {
         publishedStyles = "background-color: black;";
     }
@@ -24,12 +26,21 @@
         archivedStyles = "background-color: #f3c300;";
     }
 
+    foreach (var claim in User.Claims)
+    {
+        if (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
+        {
+            userId = claim.Value;
+        }
+    }
+
     string SetStatusBadge(string status)
     {
         if (status == "published")
         {
             return "success";
-        }else if (status == "draft")
+        }
+        else if (status == "draft")
         {
             return "warning";
         }
@@ -47,7 +58,7 @@
             <div class="col-sm-12">
                 <nav class="nav nav-borders mb-3" style="border-bottom: 1px solid lightgray;">
                     <a asp-controller="UserDetailClient" asp-action="Index" class="nav-link">Profile</a>
-                    <a class="nav-link">Orders</a>
+                    <a asp-controller="OrderClient" asp-action="List" asp-route-id="@userId" class="nav-link">Orders </a>
                     <a asp-controller="DashboardClient" asp-action="Index" class="nav-link" style="color: #f3c300;">Offers</a>
                 </nav>
             </div>
@@ -72,17 +83,17 @@
                     @foreach (var item in Model)
                     {
 
-                            <div class="col-md-6 mt-2 cart-line-item d_flex align-items-center">
-                                <img class="img-fluid" style="width: 50px;" src="~/image/offer_placeholder.jpg" alt="img">
-                                <div class="about_content ml-2">
-                                    <h2 class="title title_color">Order no. #@item.Id</h2>
-                                    <p class="p-0">Created at: @item.CreatedAt | Updated at: @item.UpdatedAt</p>
-                                    <p class="p-0">Status: <span class="badge badge-@SetStatusBadge(@item.Status)">@item.Status</span></p>
-                                    <p class="p-0">@item.Description</p>
-                                    <a asp-controller="DashboardClient" asp-action="Edit" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: black;">Edit</a>
-                                    <a asp-controller="DashboardClient" asp-action="Delete" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: red;">Delete</a>
-                                </div>
+                        <div class="col-md-6 mt-2 cart-line-item d_flex align-items-center">
+                            <img class="img-fluid" style="width: 50px;" src="~/image/offer_placeholder.jpg" alt="img">
+                            <div class="about_content ml-2">
+                                <h2 class="title title_color">Order no. #@item.Id</h2>
+                                <p class="p-0">Created at: @item.CreatedAt | Updated at: @item.UpdatedAt</p>
+                                <p class="p-0">Status: <span class="badge badge-@SetStatusBadge(@item.Status)">@item.Status</span></p>
+                                <p class="p-0">@item.Description</p>
+                                <a asp-controller="DashboardClient" asp-action="Edit" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: black;">Edit</a>
+                                <a asp-controller="DashboardClient" asp-action="Delete" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: red;">Delete</a>
                             </div>
+                        </div>
                     }
                 }
                 else

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BC = BCrypt.Net.BCrypt;
 
 
 namespace MeetingManagerMvc.Controllers
@@ -190,7 +191,7 @@ namespace MeetingManagerMvc.Controllers
                             Id = id,
                             UserName = registerUser.UserName,
                             EmailAddress = registerUser.EmailAddress,
-                            Password = registerUser.Password,
+                            Password = BC.HashPassword(registerUser.Password),
                         };
 
                         HttpResponseMessage response = await client.PutAsJsonAsync(WebApiPath + "Users/" + id, user);
@@ -246,7 +247,7 @@ namespace MeetingManagerMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (deleteUser.Password == deleteUser.RepeatPassword)
+                if (BC.Verify(deleteUser.RepeatPassword, deleteUser.Password))
                 {
                     HttpResponseMessage response = await client.DeleteAsync(WebApiPath + "Users/" + id);
                     response.EnsureSuccessStatusCode();

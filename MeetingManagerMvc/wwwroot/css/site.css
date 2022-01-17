@@ -79,6 +79,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  overflow-x: hidden;
 }
 .footer {
   position: absolute;
@@ -141,3 +142,47 @@ body {
 .s-saved {
     background-color: lightgray;
 }
+
+.new-order-box {
+    margin-top: 50px;
+}
+
+.custom-feedback-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-order-offert-details {
+    border: 1px solid lightgray;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+}
+
+.new-order-offert-details-image {
+    width: 15%;
+    height: 85px;
+    overflow: hidden;
+}
+
+.new-order-offert-details-image img {
+   height: 85px;
+   width: 85px;
+}
+
+.new-order-offert-details-text {
+    width: 85%;
+    padding: 5px;
+}
+
+.error-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-image img {
+    width: 75%;
+}
+

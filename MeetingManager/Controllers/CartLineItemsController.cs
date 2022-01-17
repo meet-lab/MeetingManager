@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MeetingManager.Data;
 using MeetingManager.Models;
+using LibraryApi.Attributes;
 
 namespace MeetingManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiKey]
     public class CartLineItemsController : ControllerBase
     {
         private readonly MeetingManagerContext _context;
@@ -29,10 +31,11 @@ namespace MeetingManager.Controllers
         }
 
         // GET: api/CartLineItems/5
-        [HttpGet("{cartId}")]
-        public async Task<ActionResult<CartLineItem>> GetCartLineItemsByCartId(int cartId)
+        [HttpGet]
+        [Route("/api/CartLineItems/GetByCardId/{id}")]
+        public async Task<ActionResult<List<CartLineItem>>> GetCartLineItemsByCartId(int id)
         {
-            var cartLineItem = await _context.CartLineItem.Where(cart => cart.CartId == cartId).FirstOrDefaultAsync();
+            var cartLineItem = await _context.CartLineItem.Where(item => item.CartId == id).ToListAsync();
 
             if (cartLineItem == null)
             {
