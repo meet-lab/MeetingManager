@@ -2,13 +2,65 @@
 
 @{
     ViewData["Title"] = "Offers";
+
+    string minPrice = Context.Request.Query["minPrice"];
+    string maxPrice = Context.Request.Query["maxPrice"];
+    string offerTitle = Context.Request.Query["offerTitle"];
 }
 
+
 <section class="accomodation_area section_gap">
+    <div class="container" style="background-color: #04091e;">
+        <div class="hotel_booking_table">
+            <div class="col-md-3">
+                <h2>Search<br> offers</h2>
+            </div>
+            <div class="col-md-9">
+                <div class="boking_table">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="book_tabel_item">
+                                <div class="form-group">
+                                    <div class='input-group date'>
+                                        <input id="minPrice" type="number" class="form-control" placeholder="Min price" value="@minPrice" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-dolar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class='input-group date'>
+                                        <input id="maxPrice" type="number" class="form-control" placeholder="Max price" value="@maxPrice" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-money" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class='input-group date'>
+                                    <input id="offerTitle" type="text" class="form-control" placeholder="Search by offer title" value="@offerTitle" />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-name" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="book_tabel_item">
+                                <a id="searchOffer" class="book_now_btn button_hover" style="cursor: pointer;">Search Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="section_title text-center">
             <h2 class="title_color"></h2>
-            <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast. </p>
         </div>
 
         <div class="row mb_30">
@@ -32,3 +84,18 @@
         </div>
     </div>
 </section>
+
+<script type="text/javascript">
+    const updateLink = () => {
+        const minPrice = document.getElementById("minPrice").value;
+        const maxPrice = document.getElementById("maxPrice").value;
+        const offerTitle = document.getElementById("offerTitle").value;
+        window.location.href = `/OfferClient?minPrice=${minPrice}&maxPrice=${maxPrice}&offerTitle=${offerTitle}`
+    };
+
+    document.getElementById("searchOffer").addEventListener("click", () => {
+        updateLink();
+        return false;
+    });
+
+</script>

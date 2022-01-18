@@ -50,8 +50,7 @@ namespace MeetingManager.Controllers
         [Route("/api/Orders/GetOrdersByUserId/{id}")]
         public async Task<ActionResult<List<Order>>> GetOrdersByUserId(int id, string orderStatus)
         {
-            OrderHelper helper = new OrderHelper();
-            var orders = await _context.Order.Where(order => order.UserId == id &&  (orderStatus != null ? helper.FilterOrderStatus(order, orderStatus)  : true)).ToListAsync();
+            var orders = await _context.Order.Where(order => order.UserId == id &&  (orderStatus != null ? (orderStatus == "Saved" ? order.To < DateTime.Now : order.Status == orderStatus) : true)).ToListAsync();
 
             return orders;
         }

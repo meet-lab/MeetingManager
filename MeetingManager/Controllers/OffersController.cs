@@ -25,11 +25,13 @@ namespace MeetingManager
 
         // GET: api/Offers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Offer>>> GetOffer(string perPage, string offerTitle)
+        public async Task<ActionResult<IEnumerable<Offer>>> GetOffer([FromQuery] string perPage, [FromQuery] string minPrice, [FromQuery] string maxPrice, [FromQuery] string offerTitle)
         {
             try
             {
                 int parsedPerPerNum;
+                int minPriceParsed;
+                int maxPriceParsed;
                 var parsingSuccess = int.TryParse(perPage, out parsedPerPerNum);
 
                 if (perPage != null && parsingSuccess && parsedPerPerNum != 0)
@@ -37,12 +39,14 @@ namespace MeetingManager
                     return await _context.Offer.Take(parsedPerPerNum).ToListAsync();
                 }
 
-                return await _context.Offer.Where(o => (offerTitle == null ? true : o.Title.Contains(offerTitle))).ToListAsync();
+                var parsingMinPriceSuccess = int.TryParse(minPrice, out minPriceParsed);
+                var parsingMaxPriceSuccess = int.TryParse(maxPrice, out maxPriceParsed);
+
+                return await _context.Offer.Where(o => (offerTitle == null ? true : o.Title.Contains(offerTitle)) && ((minPrice != null && parsingMinPriceSuccess) ? minPriceParsed < o.Price : true) && ((maxPrice != null && parsingMaxPriceSuccess) ? maxPriceParsed >= o.Price : true)).ToListAsync();
             } catch (Exception e)
             {
                 return null;
             }
-         
         }
 
         [HttpGet]
