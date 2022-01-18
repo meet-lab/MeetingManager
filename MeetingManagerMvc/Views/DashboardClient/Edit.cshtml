@@ -9,61 +9,63 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <h2 class="title_color">Edit offer</h2>
+            </div>
+            <div class="col-md-12">
                 @if (Model != null)
                 {
-                    <form class="row contact_form" method="post">
-                        <div class="col-md-12">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="Title" class="control-label"></label>
-                                <input asp-for="Title" class="form-control" />
-                                <span asp-validation-for="Title" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Description" class="control-label"></label>
-                                <textarea asp-for="Description" class="form-control" name="Description" id="Description" rows="1" placeholder="Description"></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Status" class="control-label"></label>
-                                <span asp-validation-for="Status" class="text-danger"></span>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="radio" asp-for="Status" class="btn-check" name="Status" id="draft" value="draft" autocomplete="off"> Save as draft
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="radio" asp-for="Status" class="btn-check" name="Status" id="published" value="published" autocomplete="off"> Publish offer
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="radio" asp-for="Status" class="btn-check" name="Status" id="archived" value="archived" autocomplete="off"> Archive offer
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="Price" class="control-label"></label>
-                                <input type="number" asp-for="Price" class="form-control" />
-                                <span asp-validation-for="Price" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input asp-for="Id" type="hidden" class="form-control" />
-                                <input asp-for="UserId" type="hidden" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" value="submit" class="btn theme_btn button_hover">Edit offer</button>
-                            </div>
+                <form class="row contact_form" method="post">
+                    <div class="col-md-12">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
                         </div>
-                    </form>
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label"></label>
+                            <textarea asp-for="Description" class="form-control" name="Description" id="Description" rows="1" placeholder="Description"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Status" class="control-label"></label>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" asp-for="Status" class="btn-check" name="Status" id="draft" value="draft" autocomplete="off"> Save as draft
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" asp-for="Status" class="btn-check" name="Status" id="published" value="published" autocomplete="off"> Publish offer
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" asp-for="Status" class="btn-check" name="Status" id="archived" value="archived" autocomplete="off"> Archive offer
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Price" class="control-label"></label>
+                            <input type="number" asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Id" type="hidden" class="form-control" />
+                            <input asp-for="UserId" type="hidden" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" value="submit" class="btn theme_btn button_hover">Edit offer</button>
+                        </div>
+                    </div>
+                </form>
                 }
             </div>
-        </div>
-
-        <div>
-            <a asp-controller="DashboardClient" asp-action="Index">Back to List</a>
+            <div class="col-md-12">
+                <a asp-controller="DashboardClient" asp-action="Index" class="button_hover theme_btn_two">Back to List</a>
+            </div>
         </div>
     </div>
 </section>

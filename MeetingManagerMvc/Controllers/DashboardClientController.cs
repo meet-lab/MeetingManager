@@ -35,7 +35,7 @@ namespace MeetingManagerMvc.Controllers
 
             int userId = Int32.Parse(identity.Value);
             List<Offer> offers = null;
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + $"Offers?userId={userId}&offerStatus={status}");
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + $"Offers/OwnerOffers/{userId}&offerStatus={status}");
             if (response.IsSuccessStatusCode)
             {
                 offers = await response.Content.ReadAsAsync<List<Offer>>();
@@ -54,7 +54,7 @@ namespace MeetingManagerMvc.Controllers
                 return Redirect("/");
             }
             int userId = Int32.Parse(identity.Value);
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Offers/" + id + $"?userId={userId}");
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + $"Offers/OwnerOffers/{userId}");
             if (response.IsSuccessStatusCode)
             {
                 Offer offer = await response.Content.ReadAsAsync<Offer>();
@@ -134,14 +134,7 @@ namespace MeetingManagerMvc.Controllers
         [Authorize]
         public async Task<ActionResult> Delete(int id)
         {
-            var identity = User.Claims.Where(e => e.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").FirstOrDefault();
-
-            if (identity == null)
-            {
-                return Redirect("/");
-            }
-            int userId = Int32.Parse(identity.Value);
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Offers/" + id + $"?userId={userId}");
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Offers/" + id);
 
             if (response.IsSuccessStatusCode)
             {

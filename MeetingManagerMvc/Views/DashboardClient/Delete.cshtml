@@ -12,7 +12,7 @@
                 <h2 class="title_color">Delete offer</h2>
                 <p>Are you sure to delete offer @Html.DisplayFor(model => model.Title) with id: @Html.DisplayFor(model => model.Id)?</p>
             </div>
-            <div class="col-lg-6 col-sm-10">
+            <div class="col-sm-12">
                 <form asp-action="Delete">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     @if (!string.IsNullOrEmpty(ViewBag.Message))
@@ -22,7 +22,7 @@
                         </span>
                     }
                     <div class="form-group">
-                        <button type="submit" value="submit" class="btn theme_btn button_hover">Confirm <i class="fas fa-sign-in-alt"></i></button>
+                        <button type="submit" value="submit" class="btn theme_btn button_hover">Confirm</button>
                     </div>
                 </form>
             </div>
@@ -30,7 +30,6 @@
                 <a class="link" asp-controller="DashboardClient" asp-action="Index">Back to dachboard</a>
             </div>
         </div>
-
     </div>
 </section>
 
