@@ -1,5 +1,7 @@
 # MeetingManager
 
+![MeetingManager Main](./images/meeting_manager_main_view.PNG)
+
 ## Informacje Generealne:
 Projekt realizowany w ramach zaliczenia przedmiotu, wykorzystujący środowisko ASP.NET w wersji 5.0. MeetingManager jest to aplikacja webowa umożliwiająca użytkownikowi 
 rezerwację pobytu (oferty) w danej lokalizacji.
