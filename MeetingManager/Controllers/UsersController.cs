@@ -9,6 +9,8 @@ using MeetingManager.Data;
 using MeetingManager.Models;
 using LibraryApi.Attributes;
 using BC = BCrypt.Net.BCrypt;
+using System.Net.Mail;
+using Microsoft.Extensions.Configuration;
 
 namespace MeetingManager
 {
@@ -102,6 +104,26 @@ namespace MeetingManager
 
             await _context.SaveChangesAsync();
 
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json");
+            var config = builder.Build();
+
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient(config["Smtp:Host"]);
+
+            mail.From = new MailAddress(config["Smtp:NotificationEmail"]);
+            mail.To.Add(user.EmailAddress);
+            mail.Subject = "MeetingManager | User account created!";
+            mail.Body = "We noticed that you create user account in our service. We are happy that you choose our service ! \n \n \n" +
+                "Username: " + user.UserName + "\n" +
+                "EmailAddress: " + user.EmailAddress + "\n";
+
+            SmtpServer.Port = Int16.Parse(config["Smtp:Port"]);
+            SmtpServer.Credentials = new System.Net.NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]);
+            SmtpServer.EnableSsl = true;
+
+            SmtpServer.Send(mail);
+
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
@@ -131,6 +153,26 @@ namespace MeetingManager
 
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
+
+            var builder = new ConfigurationBuilder()
+                   .AddJsonFile("appsettings.json");
+            var config = builder.Build();
+
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient(config["Smtp:Host"]);
+
+            mail.From = new MailAddress(config["Smtp:NotificationEmail"]);
+            mail.To.Add(user.EmailAddress);
+            mail.Subject = "MeetingManager | User account deleted!";
+            mail.Body = "Your account was deleted Bye Bye! \n \n \n" +
+                "Username: " + user.UserName + "\n" +
+                "EmailAddress: " + user.EmailAddress + "\n";
+
+            SmtpServer.Port = Int16.Parse(config["Smtp:Port"]);
+            SmtpServer.Credentials = new System.Net.NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]);
+            SmtpServer.EnableSsl = true;
+
+            SmtpServer.Send(mail);
 
             return NoContent();
         }
