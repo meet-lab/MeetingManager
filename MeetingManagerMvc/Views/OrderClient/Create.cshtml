@@ -4,35 +4,45 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 
-<h4>Order</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <h4>Confirm data below before create an order !</h4>
-        <h5> @Model.Offer.Title </h5>
-        <p> @Model.Offer.Description </p>
-        <p>From: @Model.CartLineItem.From</p>
-        <p>To: @Model.CartLineItem.To</p>
-        <p>Total price: @Model.CartLineItem.TotalPrice</p>
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Comment" class="control-label"></label>
-                <input asp-for="Comment" class="form-control" />
-                <span asp-validation-for="Comment" class="text-danger"></span>
+<section class="contact_area section_gap">
+    <div class="container">
+        <div class="row justify-content-center align-items-center flex-column">
+            <div class="col-sm-12" style="text-align:center;">
+                <h2 class="title_color">Confirm data below before create an order!</h2>
+                <p>Already here...</p>
             </div>
-            <input type="hidden" asp-for="Offer" value="@Model.Offer" />
-            <input type="hidden" asp-for="CartLineItem" value="@Model.CartLineItem" />
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+        <div class="row confirm-add-to-cart-row">
+            <div class="col-sm-8">
+                <div class="confirm-reservation-offert">
+                    <div class="confirm-reservation-offert-image">
+                        <img src="~/image/vacation.png" alt="create_order" />
+                    </div>
+                    <div class="confirm-reservation-text">
+                        <h3 style="padding-left:25px; padding-top:25px;">@Html.DisplayFor(model => model.Offer.Title)</h3>
+                        <p style="padding-left:25px;">Description: @Model.Offer.Description </p>
+                        <p style="padding-left:25px;">From: @Model.CartLineItem.From.ToString("d") | To: @Model.CartLineItem.To.ToString("d")</p>
+                        <p style="padding-left:25px;">Total price: <b>@Model.CartLineItem.TotalPrice</b></p>
+                    </div>
+                </div>
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Comment" class="control-label"></label>
+                        <input asp-for="Comment" class="form-control" />
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </div>
+                    <input type="hidden" asp-for="Offer" value="@Model.Offer" />
+                    <input type="hidden" asp-for="CartLineItem" value="@Model.CartLineItem" />
+                    <div class="form-group" style="text-align:center;">
+                        <input type="submit" value="Create" class="btn theme_btn button_hover" />
+                        <a asp-action="Index" class="btn button_hover theme_btn_two">Back to List</a>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</section>
 
-<div>
-    <a asp-action="Index" class="button_hover theme_btn_two">Back to List</a>
-</div>
 

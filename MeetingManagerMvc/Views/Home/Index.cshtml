@@ -87,31 +87,23 @@
 </section>
 <!--================Banner Area =================-->
 <!--================ Accomodation Area  =================-->
-<section class="accomodation_area section_gap">
+<section class="about_history_area section_gap">
     <div class="container">
-        <div class="section_title text-center">
-            <h2 class="title_color">Check out our offers</h2>
-            <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast</p>
-        </div>
-
-        <div class="row mb_30">
-            @if (Model != null)
-            {
-                @foreach (var item in Model)
-                {
-
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="accomodation_item text-center">
-                            <div class="hotel_img">
-                                <img src="image/offer_placeholder.jpg" alt="">
-                                <a href="#" class="btn theme_btn button_hover">Book Now</a>
-                            </div>
-                            <a href="/OfferClient/Details/@item.Id"><h4 class="sec_h4"> @Html.DisplayFor(modelItem => item.Title)</h4></a>
-                            <h5>$ @Html.DisplayFor(modelItem => item.Price)<small>/night</small></h5>
-                        </div>
-                    </div>
-                }
-            }
+        <div class="row">
+            <div class="col-md-6">
+                <img class="img-fluid" src="image/world.svg" alt="eplore">
+            </div>
+            <div class="col-md-6 d_flex align-items-center">
+                <div class="about_content ">
+                    <h2 class="title title_color">Discover world with us !</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sagittis sapien ut neque finibus cursus. Aliquam eget lectus in nisi commodo
+                        fringilla quis sit amet velit. Sed aliquam erat eget placerat vehicula. Suspendisse mollis viverra rhoncus. Vestibulum lectus sapien,
+                        lobortis id dolor vel, tincidunt placerat erat. Aenean ultrices metus mi, scelerisque condimentum augue auctor in. Etiam sed gravida nibh.
+                        Pellentesque fermentum faucibus nunc vitae facilisis.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -122,45 +114,34 @@
     </div>
     <div class="container">
         <div class="section_title text-center">
-            <h2 class="title_w">Royal Facilities</h2>
-            <p>Who are in extremely love with eco friendly system.</p>
+            <h2 class="title_w">Check out our offers</h2>
+            <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast, don't waste it!</p>
         </div>
-        <div class="row mb_30">
+        <div class="row mb_30 justify-content-center">
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
             <div class="col-lg-4 col-md-6">
-                <div class="facilities_item">
-                    <h4 class="sec_h4"><i class="lnr lnr-dinner"></i>Restaurant</h4>
-                    <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
+                <div class="facilities_item custom_facilities">
+                    <div class="items_background_image">
+                    </div>
+                    <div class="facilities_item_custom_text_arear">
+                        <h4><i class="lnr lnr-dinner"></i>@Html.DisplayFor(modelItem => item.Title)</h4>
+                        <span style="text-align:center;width:100%;">$ @Html.DisplayFor(modelItem => item.Price)<small>/day</small></span>
+                        <br />
+                        <a asp-action="Details" asp-controller="OfferClient" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="margin-top:50px;">Check offert!</a>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="facilities_item">
-                    <h4 class="sec_h4"><i class="lnr lnr-bicycle"></i>Sports CLub</h4>
-                    <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="facilities_item">
-                    <h4 class="sec_h4"><i class="lnr lnr-shirt"></i>Swimming Pool</h4>
-                    <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="facilities_item">
-                    <h4 class="sec_h4"><i class="lnr lnr-car"></i>Rent a Car</h4>
-                    <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="facilities_item">
-                    <h4 class="sec_h4"><i class="lnr lnr-construction"></i>Gymnesium</h4>
-                    <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="facilities_item">
-                    <h4 class="sec_h4"><i class="lnr lnr-coffee-cup"></i>Bar</h4>
-                    <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
-                </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-12" style="text-align:center; margin-top:50px;">
+                <a href="#" class="btn theme_btn button_hover">Explore more offerts!</a>
             </div>
         </div>
     </div>
@@ -173,12 +154,16 @@
             <div class="col-md-6 d_flex align-items-center">
                 <div class="about_content ">
                     <h2 class="title title_color">About Us <br>Our History<br>Mission & Vision</h2>
-                    <p>inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially in the workplace. That’s why it’s crucial that, as women, our behavior on the job is beyond reproach. inappropriate behavior is often laughed.</p>
-                    <a href="#" class="button_hover theme_btn_two">Request Custom Price</a>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sagittis sapien ut neque finibus cursus. Aliquam eget lectus in nisi commodo 
+                        fringilla quis sit amet velit. Sed aliquam erat eget placerat vehicula. Suspendisse mollis viverra rhoncus. Vestibulum lectus sapien,
+                        lobortis id dolor vel, tincidunt placerat erat. Aenean ultrices metus mi, scelerisque condimentum augue auctor in. Etiam sed gravida nibh.
+                        Pellentesque fermentum faucibus nunc vitae facilisis.
+                    </p>
                 </div>
             </div>
             <div class="col-md-6">
-                <img class="img-fluid" src="image/about_bg.jpg" alt="img">
+                <img class="img-fluid" src="image/explore.svg" alt="eplore">
             </div>
         </div>
     </div>
