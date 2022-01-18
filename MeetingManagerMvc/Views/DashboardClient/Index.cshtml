@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<MeetingManager.Models.Offer>
 
 @{
+    string userId = "";
+
     ViewData["Title"] = "Client Offers";
     string currStatus = Context.Request.Query["status"];
-    string allStyles = "background-color: #f3c300;", draftStyles = "", publishedStyles ="", archivedStyles ="";
+    string allStyles = "background-color: #f3c300;", draftStyles = "", publishedStyles = "", archivedStyles = "";
     if (currStatus == "draft")
     {
         draftStyles = "background-color: black;";
     }
-    else if(currStatus == "published")
+    else if (currStatus == "published")
     {
         publishedStyles = "background-color: black;";
     }
@@ -24,12 +26,21 @@
         archivedStyles = "background-color: #f3c300;";
     }
 
+    foreach (var claim in User.Claims)
+    {
+        if (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
+        {
+            userId = claim.Value;
+        }
+    }
+
     string SetStatusBadge(string status)
     {
         if (status == "published")
         {
             return "success";
-        }else if (status == "draft")
+        }
+        else if (status == "draft")
         {
             return "warning";
         }
@@ -47,7 +58,7 @@
             <div class="col-sm-12">
                 <nav class="nav nav-borders mb-3" style="border-bottom: 1px solid lightgray;">
                     <a asp-controller="UserDetailClient" asp-action="Index" class="nav-link">Profile</a>
-                    <a class="nav-link">Orders</a>
+                    <a asp-controller="OrderClient" asp-action="List" asp-route-id="@userId" class="nav-link">Orders </a>
                     <a asp-controller="DashboardClient" asp-action="Index" class="nav-link" style="color: #f3c300;">Offers</a>
                 </nav>
             </div>

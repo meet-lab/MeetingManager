@@ -1,21 +1,56 @@
 ﻿@model MeetingManagerMvc.Models.ThankYouModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Thank You!";
+
+    string userId = "";
+
+    foreach (var claim in User.Claims)
+    {
+        if (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
+        {
+            userId = claim.Value;
+        }
+    }
 }
 
 <section class="accomodation_area section_gap">
     <div class="container">
-        <div class="section_title text-center">
-            <h2 class="title_color">Check out our offers</h2>
-            <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast</p>
+        <div class="row mb_30 col-sm12" style="display:flex; justify-content:center;margin-bottom:100px;">
+            <h2 class="title_color">Thank you for trusting our service !</h2>
         </div>
-
-        <div class="row mb_30">
-            <h4>Thank you for your order !</h4><span>#@Model.Order.Id</span>
-            <hr />
-            <br />
-            <p>lorem ipsum</p>
+        <div class="row new-order-box">
+            <div class="col col-sm-4 custom-feedback-image">
+                <img src="~/image/feedback.png" alt="feedback" style="width:75%;"/>
+            </div>
+            <div class="col col-sm-8">
+                <h4>Your reservation details:</h4>
+                <hr />
+                <p>Reservation ID: <b>#@Model.Order.Id</b></p>
+                <div class="new-order-offert-details">
+                    <div class="new-order-offert-details-image">
+                        <img src="~/image/offer_placeholder.jpg" alt="offer-small"/>
+                    </div>
+                    <div class="new-order-offert-details-text">
+                        <h5>@Model.Offert.Title</h5>
+                        <p>Description: @Model.Offert.Description</p>
+                    </div>
+                </div>
+                <br />
+                <p>
+                    Reservations dates :
+                    <span>Arrival: @Model.Order.From</span> | <span>Leave: @Model.Order.To</span>
+                </p>
+                @if (Model.Order.Comment != "" && Model.Order.Comment != null)
+                {
+                    <p>Comment: @Model.Order.Comment</p>
+                }
+                <p>Bill: <b>@Model.Order.Amount</b></p>
+                <a asp-controller="OrderClient" asp-action="List" asp-route-id="@userId" style="float:right;">Check all your reservations here.</a>
+            </div>
+        </div>
+        <div class="col col-sm-12" style="display:flex; justify-content: center; margin-top: 100px">
+            <a asp-controller="Home" asp-action="Index" class="button_hover theme_btn_two">Discover more offerts!</a>
         </div>
     </div>
 </section>

@@ -28,7 +28,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav mx-auto">
-                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home <i class="fas fa-home"></i></a></li>
 
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -48,7 +48,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="UserDetailClient" asp-route-id="@userId" asp-action="Index">@userName</a>
+                                <a class="nav-link" asp-controller="UserDetailClient" asp-route-id="@userId" asp-action="Index">@userName <i class="fas fa-user"></i></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="CartClient" asp-action="Index">Cart <i class="fas fa-shopping-cart"></i></a>
@@ -64,7 +64,7 @@
                                 <a class="nav-link" asp-controller="UserClient" asp-action="LoginUser">Login <i class="fas fa-sign-in-alt"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="UserClient" asp-action="RegistryUser">Register</a>
+                                <a class="nav-link" asp-controller="UserClient" asp-action="RegistryUser">Register <i class="fas fa-user-plus"></i></a>
                             </li>
                         }
                     </ul>
