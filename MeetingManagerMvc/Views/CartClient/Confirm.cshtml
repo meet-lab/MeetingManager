@@ -16,11 +16,10 @@
             <div class="col-sm-8">
                 <div class="confirm-reservation-offert">
                     <div class="confirm-reservation-offert-image">
-                        <img src="~/image/offer_placeholder.jpg" alt="offer_confirm" />
                     </div>
                     <div class="confirm-reservation-text">
                         <h3 style="padding-left:25px; padding-top:25px;">@Html.DisplayFor(model => model.Offer.Title)</h3>
-                        <p style="padding-left:25px;">Description: @Html.DisplayFor(model => model.Offer.Description)</p>
+                        <p style="padding-left:25px;padding-right:15px;">Description: @Html.DisplayFor(model => model.Offer.Description)</p>
                         <p style="padding-left:25px;">Price: <b>@Html.DisplayFor(model => model.Offer.Price) /day</b></p>
                     </div>
                 </div>

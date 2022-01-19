@@ -276,3 +276,28 @@ body {
     background-position: center;
     background-size: cover;
 }
+
+.oferts_index_page {
+    color: #000 !important;
+    box-shadow: 15px 15px 15px lightgray;
+}
+
+.confirm-reservation-offert-image {
+    background-image: url('../image/offer_placeholder.jpg');
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.confirm-reservation-offert-image-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35%;
+    overflow: hidden;
+}
+
+.confirm-reservation-offert-image-add img {
+    width: 90%;
+}
