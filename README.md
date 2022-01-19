@@ -8,6 +8,7 @@ rezerwację pobytu (oferty) w danej lokalizacji.
 
 ## Założenia Projekty:
 - [x] Projekt umożliwia rejestrację użytkownika.
+- [x] Logowanie użytkownika odbywa się za pomocą loginu lub adresu email użytkownika. 
 - [x] Użytkownik może tworzyć oferty (dodawać swoje lokalizacje na wynajem) jak i 
   przeglądać i rezerwować inne oferty.
 - [x] Profil użytkownika przevhowuje wszystkie wymagane dane użytkownika które użytkownik może edytować.
