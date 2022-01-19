@@ -38,15 +38,15 @@
     {
         if (status == "published")
         {
-            return "success";
+            return "s-saved";
         }
         else if (status == "draft")
         {
-            return "warning";
+            return "s-open";
         }
         else if (status == "archived")
         {
-            return "danger";
+            return "s-canceld";
         }
         return "warning";
     }
@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <nav class="nav nav-borders mb-3" style="border-bottom: 1px solid lightgray;">
-                    <a asp-controller="UserDetailClient" asp-action="Index" class="nav-link">Profile</a>
+                    <a asp-controller="UserDetailClient" asp-action="Index" class="nav-link active">Profile</a>
                     <a asp-controller="OrderClient" asp-action="List" asp-route-id="@userId" class="nav-link">Orders </a>
                     <a asp-controller="DashboardClient" asp-action="Index" class="nav-link" style="color: #f3c300;">Offers</a>
                 </nav>
@@ -82,18 +82,19 @@
                 {
                     @foreach (var item in Model)
                     {
-
-                        <div class="col-md-6 mt-2 cart-line-item d_flex align-items-center">
-                            <img class="img-fluid" style="width: 50px;" src="~/image/offer_placeholder.jpg" alt="img">
-                            <div class="about_content ml-2">
-                                <h2 class="title title_color">Order no. #@item.Id</h2>
-                                <p class="p-0">Created at: @item.CreatedAt | Updated at: @item.UpdatedAt</p>
-                                <p class="p-0">Status: <span class="badge badge-@SetStatusBadge(@item.Status)">@item.Status</span></p>
-                                <p class="p-0">@item.Description</p>
-                                <a asp-controller="DashboardClient" asp-action="Edit" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: black;">Edit</a>
-                                <a asp-controller="DashboardClient" asp-action="Delete" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: red;">Delete</a>
+                            <div class="col-md-4 mt-3">
+                                <div class="cart-line-item d_flex align-items-center">
+                                    <img class="img-fluid" style="width: 80px;" src="~/image/offer_placeholder.jpg" alt="img">
+                                    <div class="about_content ml-2">
+                                        <h2 class="title title_color">Offer no. #@item.Id</h2>
+                                        <p class="p-0">Created at: @item.CreatedAt.ToString("d") | Updated at: @item.UpdatedAt.ToString("d")</p>
+                                        <p class="p-0">Status: <p class="order-status@SetStatusBadge(@item.Status)">@item.Status</p></p>
+                                        <p class="p-0">@item.Description</p>
+                                        <a asp-controller="DashboardClient" asp-action="Edit" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: black;">Edit</a>
+                                        <a asp-controller="DashboardClient" asp-action="Delete" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: red;">Delete</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
                     }
                 }
                 else

@@ -25,31 +25,42 @@ namespace MeetingManager
 
         // GET: api/Offers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Offer>>> GetOffer(string perPage, string userId, string offerStatus)
+        public async Task<ActionResult<IEnumerable<Offer>>> GetOffer([FromQuery] string perPage, [FromQuery] string minPrice, [FromQuery] string maxPrice, [FromQuery] string offerTitle)
         {
-           List<Offer> offers = null;
-            //   int parserPerPage = Int32.Parse(PerPage);
-
-            //   if (PerPage != null && parserPerPage != 0)
-            //   {
-            //       var takenOffers = offers.Take(4);
-            //       return takenOffers;
-            //   }
-
-            offers = await _context.Offer.ToListAsync();
-            if (userId != null)
+            try
             {
-                int parsedUserId;
-                var parsingSuccess = int.TryParse(userId, out parsedUserId);
-                if(parsingSuccess)
+                int parsedPerPerNum;
+                int minPriceParsed;
+                int maxPriceParsed;
+                var parsingSuccess = int.TryParse(perPage, out parsedPerPerNum);
+
+                if (perPage != null && parsingSuccess && parsedPerPerNum != 0)
                 {
-                    return await _context.Offer.Where(o => o.UserId == parsedUserId && (offerStatus != null ? o.Status == offerStatus : true)).ToListAsync();
+                    return await _context.Offer.Take(parsedPerPerNum).ToListAsync();
                 }
-                return offers;
+
+                var parsingMinPriceSuccess = int.TryParse(minPrice, out minPriceParsed);
+                var parsingMaxPriceSuccess = int.TryParse(maxPrice, out maxPriceParsed);
+
+                return await _context.Offer.Where(o => (offerTitle == null ? true : o.Title.Contains(offerTitle)) && ((minPrice != null && parsingMinPriceSuccess) ? minPriceParsed < o.Price : true) && ((maxPrice != null && parsingMaxPriceSuccess) ? maxPriceParsed >= o.Price : true)).ToListAsync();
+            } catch (Exception e)
+            {
+                return null;
             }
+        }
 
-
-            return offers;
+        [HttpGet]
+        [Route("/api/Offers/OwnerOffers/{id}")]
+        public async Task<ActionResult<IEnumerable<Offer>>> GetOwnerOffer(int id, string offerStatus)
+        {
+            try
+            {
+                return await _context.Offer.Where(o => (offerStatus == null ? true : o.Status == offerStatus) && id == o.UserId).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         // GET: api/Offers/5

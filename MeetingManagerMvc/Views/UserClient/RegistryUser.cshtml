@@ -29,7 +29,7 @@
 
                     <div class="form-group">
                         <label asp-for="EmailAddress" class="control-label"></label>
-                        <input asp-for="EmailAddress" class="form-control" type="email"/>
+                        <input asp-for="EmailAddress" class="form-control" />
                         <span asp-validation-for="EmailAddress" class="text-danger"></span>
                     </div>
 
@@ -52,7 +52,7 @@
                 </form>
             </div>
             <div class="col-sm-12">
-                <a asp-controller="Home" asp-action="Index">Back to Home page</a>
+                <a asp-controller="Home" asp-action="Index" class="button_hover theme_btn_two">Back to Home page</a>
             </div>
         </div>
     </div>

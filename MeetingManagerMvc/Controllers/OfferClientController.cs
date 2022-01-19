@@ -24,10 +24,10 @@ namespace MeetingManagerMvc.Controllers
             WebApiPath = http.GetWebApiPath();
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] string minPrice, [FromQuery] string maxPrice, [FromQuery] string offerTitle)
         {
             List<Offer> offers = null;
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Offers?PerPage=5");
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + $"Offers?minPrice={minPrice}&maxPrice={maxPrice}&offerTitle={offerTitle}");
             if (response.IsSuccessStatusCode)
             {
                 offers = await response.Content.ReadAsAsync<List<Offer>>();
@@ -44,7 +44,6 @@ namespace MeetingManagerMvc.Controllers
             {
                 Offer offer = await response.Content.ReadAsAsync<Offer>();
                 return View(offer);
-
             }
 
             return Redirect("/OfferClient");

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MeetingManager.Data;
+using MeetingManager.Models;
 
 namespace MeetingManager
 {
@@ -88,6 +89,17 @@ namespace MeetingManager
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<MeetingManagerContext>();
                 context.Database.Migrate();
+
+                try
+                {
+                    SeedData.Initialize(serviceScope.ServiceProvider);
+                }
+                catch (Exception ex)
+                {
+                    var logger = serviceScope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred seeding the DB.");
+                }
+
             }
         }
     }

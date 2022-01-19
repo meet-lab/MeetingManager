@@ -49,9 +49,9 @@ namespace MeetingManager.Controllers
         // GET: api/Orders/5
         [HttpGet]
         [Route("/api/Orders/GetOrdersByUserId/{id}")]
-        public async Task<ActionResult<List<Order>>> GetOrdersByUserId(int id)
+        public async Task<ActionResult<List<Order>>> GetOrdersByUserId(int id, string orderStatus)
         {
-            var orders = await _context.Order.Where(order => order.UserId == id).ToListAsync();
+            var orders = await _context.Order.Where(order => order.UserId == id &&  (orderStatus != null ? (orderStatus == "Saved" ? order.To < DateTime.Now : order.Status == orderStatus) : true)).ToListAsync();
 
             return orders;
         }
@@ -145,6 +145,22 @@ namespace MeetingManager.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // Status = Saved | Created | Canceled
+        private bool FilterOrderHelper(Order order, string orderStatus)
+        {
+            if (orderStatus == "Saved")
+            {
+                return order.To < DateTime.Now;
+            }
+            
+            if(order.Status == orderStatus)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private bool OrderExists(int id)
