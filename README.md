@@ -45,6 +45,11 @@ rezerwację pobytu (oferty) w danej lokalizacji.
   | ------------- | ------------- |
   | -  | - |
   
+## Dane dostępowe:
+
+* API Key: Pei1deingai
+* Hasło bazy danych: Pa55w0rd2021, Login: SA
+  
 ## Autorzy:
 * Artur Garlacz
 * Maksymilian Jachymczak
