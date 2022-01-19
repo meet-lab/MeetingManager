@@ -85,7 +85,7 @@ namespace MeetingManagerMvc.Controllers
         }
 
 
-        public async Task<IActionResult> List([FromQuery] string orderStatus)
+        public async Task<IActionResult> List([FromQuery] string status)
         {
             var identity = User.Claims.Where(e => e.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").FirstOrDefault();
 
@@ -94,7 +94,7 @@ namespace MeetingManagerMvc.Controllers
                 return Redirect("/");
             }
 
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Orders/GetOrdersByUserId/" + Int16.Parse(identity.Value) + "?orderStatus="+orderStatus);
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + "Orders/GetOrdersByUserId/" + Int16.Parse(identity.Value) + "?orderStatus="+status);
 
             List<Order> orders = null;
             if (response.IsSuccessStatusCode)
