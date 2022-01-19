@@ -35,7 +35,7 @@ namespace MeetingManagerMvc.Controllers
 
             int userId = Int32.Parse(identity.Value);
             List<Offer> offers = null;
-            HttpResponseMessage response = await client.GetAsync(WebApiPath + $"Offers/OwnerOffers/{userId}&offerStatus={status}");
+            HttpResponseMessage response = await client.GetAsync(WebApiPath + $"Offers/OwnerOffers/{userId}?offerStatus={status}");
             if (response.IsSuccessStatusCode)
             {
                 offers = await response.Content.ReadAsAsync<List<Offer>>();

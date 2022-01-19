@@ -75,20 +75,22 @@
             </div>
         </div>
 
-        <div class="row mb_30">
+        <div class="row mb_30 justify-content-center">
             @if (Model != null)
             {
                 @if (Model.Count() > 0)
                 {
                     @foreach (var item in Model)
                     {
-                            <div class="col-md-4 mt-3">
+                            <div class="col-lg-8 col-sm-10 mt-3">
                                 <div class="cart-line-item d_flex align-items-center">
                                     <img class="img-fluid" style="width: 80px;" src="~/image/offer_placeholder.jpg" alt="img">
                                     <div class="about_content ml-2">
-                                        <h2 class="title title_color">Offer no. #@item.Id</h2>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h2 class="title title_color mb-0" style="font-size:20px;">Offer no. #@item.Id</h2>
+                                            <span class="order-status @SetStatusBadge(@item.Status) p-0 m-0 d-flex justify-content-center align-items-center" style="text-transform: uppercase; font-weight:600;height:30px;">@item.Status</span>
+                                        </div>
                                         <p class="p-0">Created at: @item.CreatedAt.ToString("d") | Updated at: @item.UpdatedAt.ToString("d")</p>
-                                        <p class="p-0">Status: <p class="order-status@SetStatusBadge(@item.Status)">@item.Status</p></p>
                                         <p class="p-0">@item.Description</p>
                                         <a asp-controller="DashboardClient" asp-action="Edit" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: black;">Edit</a>
                                         <a asp-controller="DashboardClient" asp-action="Delete" asp-route-id="@item.Id" class="btn theme_btn button_hover" style="background-color: red;">Delete</a>
