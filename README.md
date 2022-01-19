@@ -19,6 +19,8 @@ rezerwację pobytu (oferty) w danej lokalizacji.
 - [x] API aplikacji zabezpieczone jest kluczem.
 - [x] Hasła użytkowników nie są hashowane podczas zapisywania w bazie danych zwiększa to bezpieczeństwo użytkwonika.
 
+![MeetingManager Main](./.images/meeting_-manager_user_account.PNG)
+
 ## Technologie:
 * DOCKER
 * ASP.NET 5.0
