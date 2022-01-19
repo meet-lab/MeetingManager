@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using MeetingManager.Data;
 using MeetingManager.Models;
 using LibraryApi.Attributes;
-using MeetingManager.Helpers;
+using System.Net.Mail;
+using Microsoft.Extensions.Configuration;
 
 namespace MeetingManager.Controllers
 {
@@ -105,6 +106,27 @@ namespace MeetingManager.Controllers
 
             _context.Order.Add(order);
             await _context.SaveChangesAsync();
+
+            var user = await _context.User.FindAsync(order.UserId);
+
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json");
+            var config = builder.Build();
+
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient(config["Smtp:Host"]);
+
+            mail.From = new MailAddress(config["Smtp:NotificationEmail"]);
+            mail.To.Add(user.EmailAddress);
+            mail.Subject = "MeetingManager | Your order was successfully created!";
+            mail.Body = "We are happy, that you choose our service. Your order details:" +
+                "Order no. #" + order.Id + "| Bill: " + order.Amount;
+
+            SmtpServer.Port = Int16.Parse(config["Smtp:Port"]);
+            SmtpServer.Credentials = new System.Net.NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]);
+            SmtpServer.EnableSsl = true;
+
+            SmtpServer.Send(mail);
 
             return CreatedAtAction("GetOrder", new { id = order.Id }, order);
         }

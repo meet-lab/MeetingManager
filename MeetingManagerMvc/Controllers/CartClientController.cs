@@ -49,7 +49,7 @@ namespace MeetingManagerMvc.Controllers
             {
                 return Redirect("/");
             }
-                
+
             try
             {
                 HttpResponseMessage cartResponse = await client.GetAsync(WebApiPath + "Carts/" + identity.Value);
