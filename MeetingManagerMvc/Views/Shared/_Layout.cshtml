@@ -28,40 +28,45 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav mx-auto">
-                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home <i class="fas fa-home"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="OfferClient" asp-action="Index">Offerts <i class="fas fa-list"></i></a>
+                        </li>
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                        <li class="nav-item">
-                            @foreach (var claim in User.Claims)
-                                        {
-                            @if (@claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")
-                                            {
-                                                userName = claim.Value;
-                                            }
-                            @if (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
-                                            {
-                                                userId = claim.Value;
-                                            }
-                                        }
-                            <a class="nav-link" asp-controller="UserDetailClient" asp-route-id="@userId" asp-action="Index">@userName</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="CartClient" asp-action="Index">Cart <i class="fas fa-shopping-cart"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="UserClient" asp-action="Logout">Logout <i class="fas fa-sign-out-alt"></i></a>
-                        </li>
+                            <li class="nav-item">
+                                @foreach (var claim in User.Claims)
+                                {
+                                    @if (@claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")
+                                    {
+                                        userName = claim.Value;
+                                    }
+                                    @if (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
+                                    {
+                                        userId = claim.Value;
+                                    }
+                                }
+                                <a class="nav-link" asp-controller="UserDetailClient" asp-route-id="@userId" asp-action="Index">@userName <i class="fas fa-user-alt"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="CartClient" asp-action="Index">Cart <i class="fas fa-shopping-cart"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="UserClient" asp-action="Logout">Logout <i class="fas fa-sign-out-alt"></i></a>
+                            </li>
 
                         }
                         else
                         {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="UserClient" asp-action="LoginUser">Login <i class="fas fa-sign-in-alt"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="UserClient" asp-action="RegistryUser">Register</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="UserClient" asp-action="LoginUser">Login <i class="fas fa-sign-in-alt"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="UserClient" asp-action="RegistryUser">Register</a>
+                            </li>
                         }
                     </ul>
                 </div>

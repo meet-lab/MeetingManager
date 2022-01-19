@@ -8,17 +8,21 @@ rezerwację pobytu (oferty) w danej lokalizacji.
 
 ## Założenia Projekty:
 - [x] Projekt umożliwia rejestrację użytkownika.
-- [x] Logowanie użytkownika odbywa się za pomocą loginu lub adresu email użytkownika. 
-- [x] Użytkownik może tworzyć oferty (dodawać swoje lokalizacje na wynajem) jak i 
-  przeglądać i rezerwować inne oferty.
-- [x] Profil użytkownika przevhowuje wszystkie wymagane dane użytkownika które użytkownik może edytować.
+- [x] Logowanie użytkownika odbywa się za pomocą loginu lub adresu e-mail użytkownika oraz hasła. 
+- [x] Użytkownik może tworzyć oferty jak i przeglądać i rezerwować inne oferty.
+- [x] Profil użytkownika przechowuje wszystkie wymagane dane użytkownika, dane personalne,
+      oraz dane dostępowe mogę być modyfikowane.
 - [x] Użytkownik posiada możliwość usunięcia swojego konta.
 - [x] Gotowe rezerwacje można w systemie anulować.
-- [x] Przed dokonaniem rezerwacji wybrana przez użytkownika przed zapłaceniem trafia do koszyka (karty).
-- [x] Użytkownik informowany jest o rezerwacji ofert drogą meilową, jak również o rejestracji i usunięciu konta.
+- [x] Przed dokonaniem rezerwacji wybrana przez użytkownika oferta trafia do koszyka (karty)
+      gdzie musi zostać ukończony proces rezerwacji.
+- [x] Użytkownik informowany jest o rezerwacji ofert drogą mailową, jak również o rejestracji i usunięciu konta.
 - [x] Zapytania bazodanowe realizowane są przy pomocy API.
 - [x] API aplikacji zabezpieczone jest kluczem.
-- [x] Hasła użytkowników nie są hashowane podczas zapisywania w bazie danych zwiększa to bezpieczeństwo użytkwonika.
+- [x] Hasła użytkowników są szyfrowane podczas zapisywania w bazie danych zwiększa to bezpieczeństwo użytkwonika.
+- [x] Przykładowe dane generowane są podczas uruchamiania projektu.
+- [x] Użytkownik może filtrować oferty podczas ich przeglądania, posiada również możliwość filtrowanie
+      swoich zamówień oraz wystawionych ofert.
 
 ![MeetingManager Main](./.images/meeting_-manager_user_account.PNG)
 
@@ -32,7 +36,7 @@ rezerwację pobytu (oferty) w danej lokalizacji.
 ## Instrukacja uruchomienia:
 
 * Pierwszym krokiem jest uruchomienie aplikacji Docker.
-* W Visual studio w opcjach uruchamiania projekty należy wybrać:
+* W Visual studio w opcjach uruchamiania projektu należy wybrać:
 
   > docker-compose
   
@@ -46,7 +50,10 @@ rezerwację pobytu (oferty) w danej lokalizacji.
 
     | USERNAME  | PASSWORD |
   | ------------- | ------------- |
-  | -  | - |
+  | example/example@testdomain.com  | 123qwe |
+  | user/user@testdomain.com          | 123qwe |
+
+  Wszyscy inni użytkownicy utworzeni podczas startowania projektu posiadają hasło: 123qwe
   
 ## Dane dostępowe:
 
