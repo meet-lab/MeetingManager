@@ -33,6 +33,7 @@
                                 <div class="about_content ">
                                     <h2 class="title title_color">@Model.Title</h2>
                                     <p>@Model.Description</p>
+                                    <p>$@Html.DisplayFor(item => item.Price)/day</p>
                                     @if (userId == Model.UserId.ToString())
                                     {
                                         <a class="button_hover theme_btn_two" asp-controller="DashBoardClient" asp-action="Index" asp-route-id="@Model.UserId">Edit your offerts!</a>
